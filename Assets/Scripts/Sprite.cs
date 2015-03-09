@@ -31,6 +31,7 @@ public class Sprite : MonoBehaviour
 	[SerializeField]
 	internal int mAnimWait = 0;
 
+    bool mIsMaterialAdded = false;
 	internal int mAnimationFrame = 1;
 	int mAnimWaitCounter;
 

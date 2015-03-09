@@ -10,14 +10,14 @@ public class Mesh : MonoBehaviour
     protected List<Sprite> sprites;
 
     [SerializeField]
-    protected SpriteSheet mSpriteSheet;
+    internal SpriteSheet mSpriteSheet;
 
-    protected MeshFilter mMeshFilter;
-    protected MeshRenderer mMeshRender;
-    protected UnityEngine.Mesh mMesh;
+    MeshFilter mMeshFilter;
+    MeshRenderer mMeshRender;
+    UnityEngine.Mesh mMesh;
 
     // Use this for initialization
-    protected void Start()
+    void Start()
     {
         sprites = new List<Sprite>();
 
@@ -37,7 +37,7 @@ public class Mesh : MonoBehaviour
     }
 
     // Update is called once per frame
-    protected void Update()
+    void Update()
     {
         mMesh.Clear();
 
@@ -62,6 +62,7 @@ public class Mesh : MonoBehaviour
         mMesh.vertices = tmpVertex.Select(v => v.position).ToArray();
         mMesh.uv = tmpVertex.Select(v => v.uv).ToArray();
         mMesh.triangles = tmpIndices.ToArray();
+        Debug.Log("Mesh info:" + mMesh.vertices.Length + " , " + mMesh.uv.Length + " , " + mMesh.triangles.Length);
     }
 
     public void addSprite(Sprite s)
