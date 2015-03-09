@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Sprite : MonoBehaviour
 {
-	struct Vertex
+	public struct Vertex
 	{
 		public Vector3 position;
 		public Vector2 uv;
@@ -35,8 +35,8 @@ public class Sprite : MonoBehaviour
 	MeshRenderer mMeshRender;
 	UnityEngine.Mesh mMesh;
 
-	Vertex[] mVertex;
-	int[] mIndices;
+	public Vertex[] mVertex;
+	public int[] mIndices;
 
 	public Vector2 SpriteSize { get; private set; }
 
@@ -92,6 +92,12 @@ public class Sprite : MonoBehaviour
 			SpriteSize = descr.mSpriteSize;
 		}
 	}
+
+    public bool UpdateMeshComp()
+    {
+        //TODO
+        return false;
+    }
 
 	string FindNextFrameName()
 	{
