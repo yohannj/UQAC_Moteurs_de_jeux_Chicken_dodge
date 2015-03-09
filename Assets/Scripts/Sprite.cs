@@ -19,6 +19,9 @@ public class Sprite : MonoBehaviour
 	[SerializeField]
 	internal string mSpriteName;
 
+    [SerializeField]
+    internal bool mIsUpdatedHere = true;
+
 	[SerializeField]
 	internal bool mIsAnimated = false;
 
@@ -72,6 +75,9 @@ public class Sprite : MonoBehaviour
 	
 	public void Update ()
 	{
+        if (!mIsUpdatedHere)
+            return;
+
 		if ( !mIsAnimated )
 			return;
 

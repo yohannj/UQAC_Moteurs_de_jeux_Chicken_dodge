@@ -22,6 +22,8 @@ public class Chicken : MonoBehaviour
 		newSprite.mSpriteSheet = mSpriteSheet;
 		newSprite.mIsAnimated = true;
 		newSprite.mSpriteName = "C" + ( mVelocity.x > 0 ? "R" : "L" );
+        //newSprite.mIsUpdatedHere = false;
+        //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Mesh>().addSprite(newSprite);
 	}
 	
 	public void Update()
