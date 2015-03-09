@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Mesh : MonoBehaviour
+public class MMesh : MonoBehaviour
 {
 
     protected List<Sprite> sprites;
@@ -16,8 +16,7 @@ public class Mesh : MonoBehaviour
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
-    // Use this for initialization
-    void Start()
+    public void Awake()
     {
         sprites = new List<Sprite>();
 
@@ -31,7 +30,11 @@ public class Mesh : MonoBehaviour
         mMeshRender.castShadows = false;
         mMeshRender.useLightProbes = false;
         mMeshRender.receiveShadows = false;
+    }
 
+    // Use this for initialization
+    void Start()
+    {
         mMeshRender.material = new Material(mSpriteSheet.Shader);
         mMeshRender.material.mainTexture = mSpriteSheet.Texture;
     }

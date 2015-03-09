@@ -13,17 +13,16 @@ public class Chicken : MonoBehaviour
 	float mDistance = 0.0f;
 	bool mDropped;
 
+    MMesh mMesh;
+
 	public void Start()
 	{
 		mPosition = transform.localPosition;
 		mVelocity = ( mTarget - mPosition ).normalized * Random.Range( 2.0f, 5.0f );
 
-		var newSprite = gameObject.AddComponent<Sprite>();
+		var newSprite = gameObject.AddComponent<Chickens>();
 		newSprite.mSpriteSheet = mSpriteSheet;
-		newSprite.mIsAnimated = true;
 		newSprite.mSpriteName = "C" + ( mVelocity.x > 0 ? "R" : "L" );
-        newSprite.mIsUpdatedHere = false;
-        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Mesh>().addSprite(newSprite);
 	}
 	
 	public void Update()

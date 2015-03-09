@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Linq;
 
-public class Sprite : MonoBehaviour
+public class Chickens : MonoBehaviour
 {
     public struct Vertex
     {
@@ -13,17 +13,13 @@ public class Sprite : MonoBehaviour
 
     public Action AnimationEndedEvent = delegate { };
 
-    [SerializeField]
-    internal SpriteSheet mSpriteSheet;
+    public SpriteSheet mSpriteSheet;
 
     [SerializeField]
     internal string mSpriteName;
 
     [SerializeField]
     internal bool mIsUpdatedHere = true;
-
-    [SerializeField]
-    internal bool mIsAnimated = false;
 
     [SerializeField]
     internal int mFrameSkip = 2;
@@ -68,7 +64,7 @@ public class Sprite : MonoBehaviour
 
     public void initMeshComponents()
     {
-        var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+        var spriteName = FindNextFrameName();
         var descr = mSpriteSheet.Sprites[spriteName];
         mAnimWaitCounter = mAnimWait;
         UpdateComponents(descr);
@@ -77,9 +73,6 @@ public class Sprite : MonoBehaviour
     public void Update()
     {
         if (!mIsUpdatedHere)
-            return;
-
-        if (!mIsAnimated)
             return;
 
         if (mAnimWaitCounter > 0)
@@ -95,7 +88,7 @@ public class Sprite : MonoBehaviour
     public void UpdateMesh()
     {
         mMesh.Clear();
-        var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+        var spriteName = FindNextFrameName();
 
         if (mSpriteSheet.Sprites.ContainsKey(spriteName))
         {
@@ -110,9 +103,6 @@ public class Sprite : MonoBehaviour
 
     public bool UpdateMeshComp()
     {
-        //if (!mIsAnimated)
-        //    return false;
-
         if (mAnimWaitCounter > 0)
         {
             mAnimWaitCounter--;
@@ -121,7 +111,7 @@ public class Sprite : MonoBehaviour
 
         if (Time.frameCount % mFrameSkip == 0)
         {
-            var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+            var spriteName = FindNextFrameName();
             if (mSpriteSheet.Sprites.ContainsKey(spriteName))
             {
                 var descr = mSpriteSheet.Sprites[spriteName];
