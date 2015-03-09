@@ -61,6 +61,14 @@ public class Sprite : MonoBehaviour
 		mAnimWaitCounter = mAnimWait;
 		UpdateMesh();
 	}
+
+    public void initMeshComponents()
+    {
+        var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+        var descr = mSpriteSheet.Sprites[spriteName];
+        mAnimWaitCounter = mAnimWait;
+        UpdateComponents(descr);
+    }
 	
 	public void Update ()
 	{
@@ -95,7 +103,28 @@ public class Sprite : MonoBehaviour
 
     public bool UpdateMeshComp()
     {
-        //TODO
+        //if (!mIsAnimated)
+        //    return false;
+
+        if (mAnimWaitCounter > 0)
+        {
+            mAnimWaitCounter--;
+            return false;
+        }
+
+        if (Time.frameCount % mFrameSkip == 0)
+        {
+            var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+            if (mSpriteSheet.Sprites.ContainsKey(spriteName))
+            {
+                var descr = mSpriteSheet.Sprites[spriteName];
+                UpdateComponents(descr);
+                SpriteSize = descr.mSpriteSize;
+
+                return true;
+            }
+            return false;
+        }
         return false;
     }
 

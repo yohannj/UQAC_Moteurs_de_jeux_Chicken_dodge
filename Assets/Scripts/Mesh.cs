@@ -19,8 +19,6 @@ public class Mesh : MonoBehaviour
     // Use this for initialization
     protected void Start()
     {
-        //initMeshVars();
-
         sprites = new List<Sprite>();
 
         mMesh = new UnityEngine.Mesh();
@@ -34,18 +32,12 @@ public class Mesh : MonoBehaviour
         mMeshRender.useLightProbes = false;
         mMeshRender.receiveShadows = false;
 
-
         mMeshRender.material = new Material(mSpriteSheet.Shader);
         mMeshRender.material.mainTexture = mSpriteSheet.Texture;
     }
 
     // Update is called once per frame
     protected void Update()
-    {
-            UpdateMesh();
-    }
-
-    protected void UpdateMesh()
     {
         mMesh.Clear();
 
@@ -64,15 +56,13 @@ public class Mesh : MonoBehaviour
                 {
                     tmpIndices.Add(i);
                 }
-            } 
+            }
         }
 
         mMesh.vertices = tmpVertex.Select(v => v.position).ToArray();
         mMesh.uv = tmpVertex.Select(v => v.uv).ToArray();
         mMesh.triangles = tmpIndices.ToArray();
     }
-
-    //protected abstract void initMeshVars();
 
     public void addSprite(Sprite s)
     {
