@@ -36,7 +36,7 @@ public class Sprite : MonoBehaviour
     public UnityEngine.Mesh mMesh;
 
     Vertex[] mVertex;
-    int[] mIndices;
+    public int[] mIndices;
 
     public Vector2 SpriteSize { get; private set; }
 
