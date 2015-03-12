@@ -17,53 +17,10 @@ public class SpriteSheet : MonoBehaviour {
 	public Shader Shader { get { return mShader; } }
 	public Texture2D Texture { get { return mTexture; } }
 
-    HashSet<GameObject> spritesGO;
-    MeshFilter mMeshFilter;
-    MeshRenderer mMeshRender;
-    UnityEngine.Mesh mMesh;
-
 	public void Awake()
 	{
 		Sprites = ParseDescription( mDescription.text, mTexture );
-        initMesh();
 	}
-
-    void Update()
-    {
-        mMesh.Clear();
-        List<Vector3> childVertex = new List<Vector3>();
-        List<Vector2> childUV = new List<Vector2>();
-        foreach (GameObject child in spritesGO)
-        {
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            foreach (Vector3 v3 in childMesh.vertices)
-            {
-                childVertex.Add(child.transform.localPosition + v3);
-            }
-            foreach (Vector2 v2 in childMesh.uv)
-            {
-                childUV.Add(v2);
-            }
-
-        }
-        mMesh.vertices = childVertex.ToArray();
-        mMesh.uv = childUV.ToArray();
-
-        List<int> childIndices = new List<int>();
-        int index = 0;
-        foreach (GameObject child in spritesGO)
-        {
-
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            foreach (int i in childMesh.triangles)
-            {
-                childIndices.Add(i + 4 * index);
-            }
-            ++index;
-
-        }
-        mMesh.triangles = childIndices.ToArray();
-    }
 
 	static IDictionary<string, SpriteDescription> ParseDescription( string rawDescription, Texture2D texture )
 	{
@@ -126,27 +83,4 @@ public class SpriteSheet : MonoBehaviour {
 			height = frame.height
 		};
 	}
-
-    void initMesh()
-    {
-        spritesGO = new HashSet<GameObject>();
-        mMesh = new UnityEngine.Mesh();
-        mMesh.MarkDynamic();
-
-        mMeshFilter = gameObject.AddComponent<MeshFilter>();
-        mMeshFilter.mesh = mMesh;
-
-        mMeshRender = gameObject.AddComponent<MeshRenderer>();
-        mMeshRender.castShadows = false;
-        mMeshRender.useLightProbes = false;
-        mMeshRender.receiveShadows = false;
-
-        mMeshRender.material = new Material(mShader);
-        mMeshRender.material.mainTexture = mTexture;
-    }
-
-    public void addSpriteGO(GameObject spriteGO)
-    {
-        spritesGO.Add(spriteGO);
-    }
 }

@@ -25,5 +25,6 @@ public class Rupee : MonoBehaviour
 				newSprite.mSpriteName = "R";
 				break;
 		}
+        //newSprite.renderer.enabled = false;
 	}
 }

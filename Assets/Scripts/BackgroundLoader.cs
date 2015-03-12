@@ -35,7 +35,7 @@ public class BackgroundLoader : MonoBehaviour
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
-    public void Start()
+    void Awake()
     {
         myBackgrounds = new HashSet<GameObject>();
         mMesh = new UnityEngine.Mesh();
@@ -51,8 +51,10 @@ public class BackgroundLoader : MonoBehaviour
 
         mMeshRender.material = new Material(mSpriteSheet.Shader);
         mMeshRender.material.mainTexture = mSpriteSheet.Texture;
+    }
 
-
+    public void Start()
+    {
         float y = 0;
         foreach (var line in mDescription.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries))
         {
@@ -63,8 +65,7 @@ public class BackgroundLoader : MonoBehaviour
                 {
                     var entry = EntryMap[c];
                     var spriteGO = new GameObject();
-                    //myBackgrounds.Add(spriteGO);
-                    GameObject.Find("ZeldaSprites").GetComponent<SpriteSheet>().addSpriteGO(spriteGO);
+                    myBackgrounds.Add(spriteGO);
                     var newSprite = spriteGO.AddComponent<Sprite>();
                     newSprite.mSpriteSheet = mSpriteSheet;
                     newSprite.mSpriteName = entry.spriteName;
@@ -82,7 +83,7 @@ public class BackgroundLoader : MonoBehaviour
 
     void Update()
     {
-        /*mMesh.Clear();
+        mMesh.Clear();
         List<Vector3> childVertex = new List<Vector3>();
         List<Vector2> childUV = new List<Vector2>();
         foreach (GameObject child in myBackgrounds)
@@ -124,6 +125,6 @@ public class BackgroundLoader : MonoBehaviour
 
         //Debug.Log("mMesh info: " + mMesh.vertices.Length + ", " + mMesh.uv.Length + ", " + mMesh.triangles.Length+ " - " + s);
         //Debug.Log("Submeshes: " + mMesh.subMeshCount);
-        //Debug.Log("SubMesh 2: " + mMesh.GetTriangles(2)[0]);*/
+        //Debug.Log("SubMesh 2: " + mMesh.GetTriangles(2)[0]);
     }
 }
