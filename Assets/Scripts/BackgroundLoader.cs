@@ -38,19 +38,7 @@ public class BackgroundLoader : MonoBehaviour
     void Awake()
     {
         myBackgrounds = new HashSet<GameObject>();
-        mMesh = new UnityEngine.Mesh();
-        mMesh.MarkDynamic();
-
-        mMeshFilter = gameObject.AddComponent<MeshFilter>();
-        mMeshFilter.mesh = mMesh;
-
-        mMeshRender = gameObject.AddComponent<MeshRenderer>();
-        mMeshRender.castShadows = false;
-        mMeshRender.useLightProbes = false;
-        mMeshRender.receiveShadows = false;
-
-        mMeshRender.material = new Material(mSpriteSheet.Shader);
-        mMeshRender.material.mainTexture = mSpriteSheet.Texture;
+        SpriteBatching.Initialize(ref mMesh, ref mMeshFilter, ref mMeshRender, gameObject, mSpriteSheet);
     }
 
     public void Start()
@@ -83,48 +71,6 @@ public class BackgroundLoader : MonoBehaviour
 
     void Update()
     {
-        mMesh.Clear();
-        List<Vector3> childVertex = new List<Vector3>();
-        List<Vector2> childUV = new List<Vector2>();
-        foreach (GameObject child in myBackgrounds)
-        {
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            //Debug.Log(child.transform.localPosition);
-            foreach (Vector3 v3 in childMesh.vertices)
-            {
-                childVertex.Add(child.transform.localPosition + v3);
-            }
-            foreach (Vector2 v2 in childMesh.uv)
-            {
-                childUV.Add(v2);
-            }
-
-        }
-
-        mMesh.vertices = childVertex.ToArray();
-        mMesh.uv = childUV.ToArray();
-
-        //mMesh.subMeshCount = mMesh.vertices.Length / 4;
-        List<int> childIndices = new List<int>();
-        int index = 0;
-        foreach (GameObject child in myBackgrounds)
-        {
-            
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            foreach (int i in childMesh.triangles)
-            {
-                childIndices.Add(i + 4 * index);
-            }
-            ++index;
-
-        }
-        mMesh.triangles = childIndices.ToArray();
-        //mMesh.SetTriangles(childIndices.ToArray(), index++);
-
-        //mMesh.triangles = childIndices.ToArray();
-
-        //Debug.Log("mMesh info: " + mMesh.vertices.Length + ", " + mMesh.uv.Length + ", " + mMesh.triangles.Length+ " - " + s);
-        //Debug.Log("Submeshes: " + mMesh.subMeshCount);
-        //Debug.Log("SubMesh 2: " + mMesh.GetTriangles(2)[0]);
+        SpriteBatching.UpdateMesh(ref mMesh, ref myBackgrounds);
     }
 }

@@ -28,19 +28,7 @@ public class ChickenSpawner : MonoBehaviour
     {
         chickensJustAdded = new HashSet<GameObject>();
         chickens = new HashSet<GameObject>();
-        mMesh = new UnityEngine.Mesh();
-        mMesh.MarkDynamic();
-
-        mMeshFilter = gameObject.AddComponent<MeshFilter>();
-        mMeshFilter.mesh = mMesh;
-
-        mMeshRender = gameObject.AddComponent<MeshRenderer>();
-        mMeshRender.castShadows = false;
-        mMeshRender.useLightProbes = false;
-        mMeshRender.receiveShadows = false;
-
-        mMeshRender.material = new Material(mSpriteSheet.Shader);
-        mMeshRender.material.mainTexture = mSpriteSheet.Texture;
+        SpriteBatching.Initialize(ref mMesh, ref mMeshFilter, ref mMeshRender, gameObject, mSpriteSheet);
     }
 
     public void Start()
@@ -57,7 +45,7 @@ public class ChickenSpawner : MonoBehaviour
             mSpawnDelay = Mathf.Max(8.0f, mSpawnDelay * mSpawnWaitFactor);
         }
         UpdateChickensHashes();
-        UpdateMesh();
+        SpriteBatching.UpdateMesh(ref mMesh, ref chickens);
     }
 
     void Spawn()
@@ -101,46 +89,6 @@ public class ChickenSpawner : MonoBehaviour
         }
 
         chickensJustAdded.RemoveWhere(c => chickens.Contains(c));
-    }
-
-    void UpdateMesh()
-    {
-        mMesh.Clear();
-        chickens.RemoveWhere(c => c == null);
-
-        List<Vector3> childVertex = new List<Vector3>();
-        List<Vector2> childUV = new List<Vector2>();
-        foreach (GameObject child in chickens)
-        {   
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            foreach (Vector3 v3 in childMesh.vertices)
-            {
-                childVertex.Add(child.transform.localPosition + v3);
-            }
-            foreach (Vector2 v2 in childMesh.uv)
-            {
-                childUV.Add(v2);
-            }
-
-        }
-
-        mMesh.vertices = childVertex.ToArray();
-        mMesh.uv = childUV.ToArray();
-
-        List<int> childIndices = new List<int>();
-        int index = 0;
-        foreach (GameObject child in chickens)
-        {
-
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
-            foreach (int i in childMesh.triangles)
-            {
-                childIndices.Add(i + 4 * index);
-            }
-            ++index;
-
-        }
-        mMesh.triangles = childIndices.ToArray();
     }
 
     public void addRupee(GameObject rupeeGO)
