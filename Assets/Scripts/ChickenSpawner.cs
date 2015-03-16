@@ -44,7 +44,7 @@ public class ChickenSpawner : MonoBehaviour
             Spawn();
             mSpawnDelay = Mathf.Max(8.0f, mSpawnDelay * mSpawnWaitFactor);
         }
-        UpdateChickensHashes();
+        SpriteBatching.UpdateHashesOf(chickensJustAdded, chickens);
         SpriteBatching.UpdateMesh(ref mMesh, ref chickens);
     }
 
@@ -76,24 +76,6 @@ public class ChickenSpawner : MonoBehaviour
 
         newChicken.transform.localPosition = pos;
         newChicken.mTarget = new Vector2(Random.Range(mTargetArea.xMin, mTargetArea.xMax), Random.Range(mTargetArea.yMin, mTargetArea.yMax));
-    }
-
-    void UpdateChickensHashes()
-    {
-        foreach (GameObject go in chickensJustAdded)
-        {
-            if (go.GetComponent<MeshFilter>() != null)
-            {
-                chickens.Add(go);
-            }
-        }
-
-        chickensJustAdded.RemoveWhere(c => chickens.Contains(c));
-    }
-
-    public void addRupee(GameObject rupeeGO)
-    {
-        //TODO
     }
 
 }

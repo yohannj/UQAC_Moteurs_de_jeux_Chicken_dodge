@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &67733109
 GameObject:
@@ -104,6 +105,7 @@ Transform:
   - {fileID: 464199435}
   - {fileID: 1201246916}
   m_Father: {fileID: 656013001}
+  m_RootOrder: 1
 --- !u!114 &67733111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +145,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 67733110}
+  m_RootOrder: 1
 --- !u!114 &464199436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +162,8 @@ MonoBehaviour:
   mIsAnimated: 1
   mFrameSkip: 2
   mAnimWait: 90
+  mMesh: {fileID: 0}
+  mIndices: 
 --- !u!1 &609185090
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +205,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &656013000
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +234,7 @@ Transform:
   - {fileID: 974646490}
   - {fileID: 67733110}
   m_Father: {fileID: 1144820101}
+  m_RootOrder: 1
 --- !u!1 &698912848
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,8 +260,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -30}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1197647638}
   m_Father: {fileID: 1144820101}
+  m_RootOrder: 3
 --- !u!114 &698912850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +317,7 @@ Transform:
   - {fileID: 774311324}
   - {fileID: 966224701}
   m_Father: {fileID: 1144820101}
+  m_RootOrder: 4
 --- !u!1 &774311323
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +345,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 716950997}
+  m_RootOrder: 0
 --- !u!114 &774311325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +401,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 716950997}
+  m_RootOrder: 1
 --- !u!1 &974646489
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,6 +432,7 @@ Transform:
   - {fileID: 1095751491}
   - {fileID: 1835799545}
   m_Father: {fileID: 656013001}
+  m_RootOrder: 0
 --- !u!114 &974646491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,6 +472,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 974646490}
+  m_RootOrder: 1
 --- !u!114 &1095751492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +489,8 @@ MonoBehaviour:
   mIsAnimated: 1
   mFrameSkip: 2
   mAnimWait: 90
+  mMesh: {fileID: 0}
+  mIndices: 
 --- !u!1 &1099396541
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +519,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1144820101}
+  m_RootOrder: 2
 --- !u!114 &1099396543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,8 +612,11 @@ Camera:
     m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
   m_HDR: 0
   m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
 --- !u!4 &1144276568
 Transform:
   m_ObjectHideFlags: 0
@@ -608,6 +628,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 1
 --- !u!1 &1144820100
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +660,47 @@ Transform:
   - {fileID: 698912849}
   - {fileID: 716950997}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!1 &1197647637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1197647638}
+  - 114: {fileID: 1197647639}
+  m_Layer: 0
+  m_Name: 3.1_Rupee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1197647638
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197647637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 698912849}
+  m_RootOrder: 0
+--- !u!114 &1197647639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1197647637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a412e5efc68a47830f005c5ef2bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mSpriteSheet: {fileID: 609185091}
 --- !u!1 &1201246915
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +728,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 67733110}
+  m_RootOrder: 2
 --- !u!114 &1201246917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +769,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 974646490}
+  m_RootOrder: 0
 --- !u!114 &1450255260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,6 +786,8 @@ MonoBehaviour:
   mIsAnimated: 0
   mFrameSkip: 2
   mAnimWait: 0
+  mMesh: {fileID: 0}
+  mIndices: 
 --- !u!1 &1835799544
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,6 +815,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 974646490}
+  m_RootOrder: 2
 --- !u!114 &1835799546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,6 +856,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 67733110}
+  m_RootOrder: 0
 --- !u!114 &1850757921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -805,6 +873,8 @@ MonoBehaviour:
   mIsAnimated: 0
   mFrameSkip: 2
   mAnimWait: 0
+  mMesh: {fileID: 0}
+  mIndices: 
 --- !u!1 &1983656816
 GameObject:
   m_ObjectHideFlags: 0
@@ -844,6 +914,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1144820101}
+  m_RootOrder: 0
 --- !u!114 &1983656819
 MonoBehaviour:
   m_ObjectHideFlags: 0

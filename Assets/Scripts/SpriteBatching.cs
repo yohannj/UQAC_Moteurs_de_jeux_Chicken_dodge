@@ -63,6 +63,21 @@ public static class SpriteBatching {
             ++index;
 
         }
+
         mMesh.triangles = childIndices.ToArray();
+    }
+
+
+    public static void UpdateHashesOf(HashSet<GameObject> justAddedHash, HashSet<GameObject> finalHash)
+    {
+        foreach (GameObject go in justAddedHash)
+        {
+            if (go.GetComponent<MeshFilter>() != null)
+            {
+                finalHash.Add(go);
+            }
+        }
+
+        justAddedHash.RemoveWhere(c => finalHash.Contains(c));
     }
 }

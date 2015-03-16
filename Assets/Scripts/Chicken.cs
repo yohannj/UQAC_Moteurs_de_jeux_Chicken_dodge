@@ -41,12 +41,7 @@ public class Chicken : MonoBehaviour
 
 	public void Drop()
 	{
-		var newRupeeObj = new GameObject();
-        transform.parent.GetComponent<ChickenSpawner>().addRupee(newRupeeObj);
-		var newRupee = newRupeeObj.AddComponent<Rupee>();
-		newRupeeObj.transform.parent = gameObject.transform.parent;
-		newRupeeObj.transform.localPosition = (Vector3) mTarget + Vector3.back * -10.1f;
-		newRupee.mSpriteSheet = mSpriteSheet;
-		mDropped = true;
+        transform.parent.GetChild(0).GetComponent<Rupees>().addRupee((Vector3)mTarget);
+        mDropped = true;
 	}
 }
