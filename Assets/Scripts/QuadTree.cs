@@ -2,27 +2,27 @@
  * trouvé ici : http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
  */
 
-/*
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class QuadTree {
     private const int maxObjects = 10;
-    private const int maxLevels = 5;
+    private const int maxLevels = 4;
     private Rect bounds;
-
+    private float zAxis;
     private int level;
     private List<GameObject> objects;
     private QuadTree[] nodes;
 
-    public QuadTree(int level, Rect bounds)
+    public QuadTree(int level, Rect bounds, float zAxis)
     {
         this.level = level;
         this.bounds = bounds;
         objects = new List<GameObject>();
         nodes = new QuadTree[4];
+        this.zAxis = zAxis;
     }
 
     public void clear()
@@ -46,27 +46,30 @@ public class QuadTree {
         int x = (int)bounds.x;
         int y = (int)bounds.y;
 
-        nodes[0] = new QuadTree(level + 1, new Rect(x + subWidth, y, subWidth, subHeight));
-        nodes[1] = new QuadTree(level + 1, new Rect(x, y, subWidth, subHeight));
-        nodes[2] = new QuadTree(level + 1, new Rect(x, y + subHeight, subWidth, subHeight));
-        nodes[3] = new QuadTree(level + 1, new Rect(x + subWidth, y + subHeight, subWidth, subHeight));
+        nodes[0] = new QuadTree(level + 1, new Rect(x + subWidth, y, subWidth, subHeight), zAxis);
+        nodes[1] = new QuadTree(level + 1, new Rect(x, y, subWidth, subHeight), zAxis);
+        nodes[2] = new QuadTree(level + 1, new Rect(x, y + subHeight, subWidth, subHeight), zAxis);
+        nodes[3] = new QuadTree(level + 1, new Rect(x + subWidth, y + subHeight, subWidth, subHeight), zAxis);
     }
 
     private int getIndex(GameObject toCheck)
     {
+        Sprite s_toCheck = SpriteBatching.GetSpriteFromObject(toCheck);
+        if (s_toCheck == null) throw new Exception(toCheck.name + " et ses enfants n'ont pas de Sprite!");
+
         int index = -1;
         double verticalMidpoint = bounds.x + (bounds.width / 2);
         double horizontalMidpoint = bounds.y + (bounds.height / 2);
 
-        bool topQuadrant = (pRect.y < horizontalMidpoint && pRect.y + pRect.height < horizontalMidpoint);
-        bool bottomQuadrant = (pRect.y > horizontalMidpoint);
+        bool topQuadrant = (toCheck.transform.position.y < horizontalMidpoint && toCheck.transform.position.y + s_toCheck.SpriteSize.y < horizontalMidpoint);
+        bool bottomQuadrant = (toCheck.transform.position.y > horizontalMidpoint);
 
-        if (pRect.x < verticalMidpoint && pRect.x + pRect.width < verticalMidpoint)
+        if (toCheck.transform.position.x < verticalMidpoint && toCheck.transform.position.x + s_toCheck.SpriteSize.x < verticalMidpoint)
         {
             if (topQuadrant) index = 1;
             else if (bottomQuadrant) index = 2;
         }
-        else if (pRect.x > verticalMidpoint)
+        else if (toCheck.transform.position.x > verticalMidpoint)
         {
             if (topQuadrant) index = 0;
             else if (bottomQuadrant) index = 3;
@@ -117,5 +120,23 @@ public class QuadTree {
 
         return returnObjects;
     }
+
+    public void Draw()
+    {
+        Vector3 corner1 = new Vector3(bounds.x, bounds.y, zAxis),
+                corner2 = new Vector3(bounds.x + bounds.width, bounds.y, zAxis),
+                corner3 = new Vector3(bounds.x + bounds.width, bounds.y - bounds.height, zAxis),
+                corner4 = new Vector3(bounds.x, bounds.y - bounds.height, zAxis);
+
+        Debug.DrawLine(corner1, corner2);
+        Debug.DrawLine(corner2, corner3);
+        Debug.DrawLine(corner3, corner4);
+        Debug.DrawLine(corner4, corner1);
+
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null)
+                nodes[i].Draw();
+        }
+    }
 }
-*/

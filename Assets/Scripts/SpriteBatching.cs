@@ -89,4 +89,14 @@ public static class SpriteBatching {
 
         justAddedHash.RemoveWhere(c => finalHash.Contains(c));
     }
+
+    public static Sprite GetSpriteFromObject(GameObject toGetFrom)
+    {
+        Sprite s_toGetFrom = toGetFrom.GetComponent<Sprite>();
+
+        if (s_toGetFrom == null)
+            s_toGetFrom = toGetFrom.GetComponentInChildren<Sprite>();
+
+        return s_toGetFrom;
+    }
 }
