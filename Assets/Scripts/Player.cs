@@ -27,6 +27,8 @@ public class Player : MonoBehaviour
 	bool mIsAttacking;
 	bool mIsMoving;
 
+    public bool? canBeCollided = true;
+
 	public void Start ()
 	{
 		mSprite = gameObject.AddComponent<Sprite>();

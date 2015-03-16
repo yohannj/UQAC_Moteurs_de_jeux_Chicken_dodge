@@ -6,6 +6,8 @@ public class Rupee : MonoBehaviour
 	[SerializeField]
 	internal SpriteSheet mSpriteSheet;
 
+    public bool? canBeCollided = true;
+
 	public void Start()
 	{
 		var newSprite = gameObject.AddComponent<Sprite>();

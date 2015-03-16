@@ -13,6 +13,8 @@ public class Chicken : MonoBehaviour
 	float mDistance = 0.0f;
 	bool mDropped;
 
+    public bool? canBeCollided = true;
+
 	public void Start()
 	{
 		mPosition = transform.localPosition;

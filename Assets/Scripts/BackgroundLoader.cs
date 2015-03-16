@@ -29,6 +29,8 @@ public class BackgroundLoader : MonoBehaviour
     [SerializeField]
     float mScale = 16.0f;
 
+    public bool? canBeCollided;
+
 
     HashSet<GameObject> myBackgrounds;
     MeshFilter mMeshFilter;
@@ -37,6 +39,7 @@ public class BackgroundLoader : MonoBehaviour
 
     void Awake()
     {
+        canBeCollided = (gameObject.name == "1_PlayGround");
         myBackgrounds = new HashSet<GameObject>();
         SpriteBatching.Initialize(ref mMesh, ref mMeshFilter, ref mMeshRender, gameObject, mSpriteSheet);
     }
