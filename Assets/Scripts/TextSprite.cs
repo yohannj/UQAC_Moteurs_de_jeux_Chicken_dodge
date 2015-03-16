@@ -59,10 +59,12 @@ public class TextSprite : MonoBehaviour
 			var newSpriteObj = new GameObject();
 			var newSprite = newSpriteObj.AddComponent<Sprite>();
 			newSpriteObj.transform.parent = gameObject.transform;
-			newSpriteObj.transform.localPosition = Vector3.right * offset;
+			newSpriteObj.transform.localPosition = transform.position + Vector3.right * offset;
 			newSprite.mSpriteSheet = mSpriteSheet;
 			newSprite.mIsAnimated = false;
 			newSprite.mSpriteName = charKey;
+            newSprite.renderer.enabled = false;
+            transform.parent.parent.GetComponent<MeshRegrouper>().add_GO_to_display(newSpriteObj);
 
 			var spriteDescr = mSpriteSheet.Sprites[charKey];
 			offset += spriteDescr.mSpriteSize.x * dir;

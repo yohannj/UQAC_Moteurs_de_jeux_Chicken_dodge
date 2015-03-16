@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
 	public void Start ()
 	{
 		mSprite = gameObject.AddComponent<Sprite>();
+        transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);//GameObject.Find("Layers").GetComponent<HUDandPlayersMesh>().add_GO_to_display(gameObject);
 		mSprite.mSpriteSheet = mSpriteSheet;
 		mSprite.AnimationEndedEvent += delegate {
 			mIsAttacking = false;
@@ -38,6 +39,8 @@ public class Player : MonoBehaviour
 			mSprite.UpdateMesh();
 		};
 		UpdateSprite();
+
+        mSprite.renderer.enabled = false;
 	}
 	
 	public void Update ()

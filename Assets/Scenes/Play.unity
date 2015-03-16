@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mScoreSprite: {fileID: 1201246917}
+  mSpriteSheet: {fileID: 609185091}
 --- !u!1 &464199434
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +127,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 464199435}
-  - 114: {fileID: 464199436}
   m_Layer: 0
   m_Name: Rupee
   m_TagString: Untagged
@@ -146,24 +146,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 67733110}
   m_RootOrder: 1
---- !u!114 &464199436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 464199434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd589894d383a492eb63e3292af886f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mSpriteSheet: {fileID: 609185091}
-  mSpriteName: G
-  mIsAnimated: 1
-  mFrameSkip: 2
-  mAnimWait: 90
-  mMesh: {fileID: 0}
-  mIndices: 
 --- !u!1 &609185090
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +196,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 656013001}
+  - 114: {fileID: 656013002}
   m_Layer: 0
   m_Name: 4_HUD
   m_TagString: Untagged
@@ -235,6 +218,18 @@ Transform:
   - {fileID: 67733110}
   m_Father: {fileID: 1144820101}
   m_RootOrder: 1
+--- !u!114 &656013002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 656013000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a90a9bb87140c49a32cba419da271e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mSpriteSheet: {fileID: 609185091}
 --- !u!1 &698912848
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +292,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 716950997}
+  - 114: {fileID: 716950998}
   m_Layer: 0
   m_Name: 2_Players
   m_TagString: Untagged
@@ -318,6 +314,18 @@ Transform:
   - {fileID: 966224701}
   m_Father: {fileID: 1144820101}
   m_RootOrder: 4
+--- !u!114 &716950998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716950996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a90a9bb87140c49a32cba419da271e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mSpriteSheet: {fileID: 609185091}
 --- !u!1 &774311323
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mScoreSprite: {fileID: 1835799546}
+  mSpriteSheet: {fileID: 609185091}
 --- !u!1 &1095751490
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +462,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1095751491}
-  - 114: {fileID: 1095751492}
   m_Layer: 0
   m_Name: Rupee
   m_TagString: Untagged
@@ -473,24 +481,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 974646490}
   m_RootOrder: 1
---- !u!114 &1095751492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1095751490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd589894d383a492eb63e3292af886f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mSpriteSheet: {fileID: 609185091}
-  mSpriteName: G
-  mIsAnimated: 1
-  mFrameSkip: 2
-  mAnimWait: 90
-  mMesh: {fileID: 0}
-  mIndices: 
 --- !u!1 &1099396541
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,7 +740,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1450255259}
-  - 114: {fileID: 1450255260}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -770,24 +759,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 974646490}
   m_RootOrder: 0
---- !u!114 &1450255260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1450255258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd589894d383a492eb63e3292af886f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mSpriteSheet: {fileID: 609185091}
-  mSpriteName: GI
-  mIsAnimated: 0
-  mFrameSkip: 2
-  mAnimWait: 0
-  mMesh: {fileID: 0}
-  mIndices: 
 --- !u!1 &1835799544
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +808,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1850757920}
-  - 114: {fileID: 1850757921}
   m_Layer: 0
   m_Name: Face
   m_TagString: Untagged
@@ -857,24 +827,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 67733110}
   m_RootOrder: 0
---- !u!114 &1850757921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1850757919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd589894d383a492eb63e3292af886f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mSpriteSheet: {fileID: 609185091}
-  mSpriteName: RI
-  mIsAnimated: 0
-  mFrameSkip: 2
-  mAnimWait: 0
-  mMesh: {fileID: 0}
-  mIndices: 
 --- !u!1 &1983656816
 GameObject:
   m_ObjectHideFlags: 0
