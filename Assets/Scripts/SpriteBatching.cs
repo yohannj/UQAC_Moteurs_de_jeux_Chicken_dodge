@@ -28,18 +28,22 @@ public static class SpriteBatching {
     public static void UpdateMesh(ref Mesh mMesh,
                                   ref HashSet<GameObject> gameObjects)
     {
-        mMesh.Clear();
-        gameObjects.RemoveWhere(g => g == null);
+        mMesh.Clear(); //Remove what we did for the last frame
+        gameObjects.RemoveWhere(g => g == null); //Remove objects that no longer exist
 
         List<Vector3> childVertex = new List<Vector3>();
         List<Vector2> childUV = new List<Vector2>();
+
+        //Add vertices and UV of all objects
         foreach (GameObject child in gameObjects)
         {
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
+            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh; //Get the Mesh of the child
+            //Add vertices of the child mesh
             foreach (Vector3 v3 in childMesh.vertices)
             {
                 childVertex.Add(child.transform.localPosition + v3);
             }
+            //Add UVs of the child mesh
             foreach (Vector2 v2 in childMesh.uv)
             {
                 childUV.Add(v2);
@@ -47,27 +51,32 @@ public static class SpriteBatching {
 
         }
 
-        mMesh.vertices = childVertex.ToArray();
-        mMesh.uv = childUV.ToArray();
+        mMesh.vertices = childVertex.ToArray(); //Update vertices of the mesh to display
+        mMesh.uv = childUV.ToArray(); //Update UVs of the mesh to display
 
         List<int> childIndices = new List<int>();
-        int index = 0;
+
+        int offset = 0; //Vertices of a child mesh are added after vertices of previous child mesh. This offset allow one child to find its vertices
         foreach (GameObject child in gameObjects)
         {
 
-            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh;
+            Mesh childMesh = child.GetComponent<MeshFilter>().sharedMesh; //Get the Mesh of the child
+            //Add triangles of the child mesh, adding the offset to point the right vertices
             foreach (int i in childMesh.triangles)
             {
-                childIndices.Add(i + 4 * index);
+                childIndices.Add(i + 4 * offset);
             }
-            ++index;
+            ++offset; //Increment the offset for the next child
 
         }
 
-        mMesh.triangles = childIndices.ToArray();
+        mMesh.triangles = childIndices.ToArray(); //Update triangles of the mesh to display
     }
 
 
+    /**
+     * Check child that were just added and put them in finalHash if their mesh had the time to be initialize. It avoid errors for trying to display an element that is not initialized yet.
+     */
     public static void UpdateHashesOf(HashSet<GameObject> justAddedHash, HashSet<GameObject> finalHash)
     {
         foreach (GameObject go in justAddedHash)
