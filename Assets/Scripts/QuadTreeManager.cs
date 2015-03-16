@@ -4,23 +4,37 @@ using System.Collections;
 public class QuadTreeManager : MonoBehaviour {
 
     QuadTree quadTree;
+    bool init = false;
 
     public Rect bounds;
     public float zAxis;
+    public int maxObjects, maxLevels;
 
     void Awake()
     {
-        quadTree = new QuadTree(0, bounds, zAxis);
+        quadTree = new QuadTree(0, maxObjects, maxLevels, bounds, zAxis);
     }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
 	void Update ()
     {
+        if (!init)
+        {
+            GameObject[] allObjects = FindObjectsOfType<GameObject>();
+            for (int i = 0; i < allObjects.Length; i++)
+            {
+                if (allObjects[i].GetComponent<Colliding>() != null)
+                    quadTree.insert(allObjects[i]);
+            }
+
+            init = true;
+        }
+
+        quadTree.cleanup();
         quadTree.Draw();
 	}
+
+    public void AddObject(GameObject toAdd)
+    {
+        quadTree.insert(toAdd);
+    }
 }

@@ -8,17 +8,19 @@ using System.Collections.Generic;
 using System;
 
 public class QuadTree {
-    private const int maxObjects = 10;
-    private const int maxLevels = 4;
+    private int maxObjects;
+    private int maxLevels;
     private Rect bounds;
     private float zAxis;
     private int level;
     private List<GameObject> objects;
     private QuadTree[] nodes;
 
-    public QuadTree(int level, Rect bounds, float zAxis)
+    public QuadTree(int level, int maxObjects, int maxLevels, Rect bounds, float zAxis)
     {
         this.level = level;
+        this.maxObjects = maxObjects;
+        this.maxLevels = maxLevels;
         this.bounds = bounds;
         objects = new List<GameObject>();
         nodes = new QuadTree[4];
@@ -46,10 +48,10 @@ public class QuadTree {
         int x = (int)bounds.x;
         int y = (int)bounds.y;
 
-        nodes[0] = new QuadTree(level + 1, new Rect(x + subWidth, y, subWidth, subHeight), zAxis);
-        nodes[1] = new QuadTree(level + 1, new Rect(x, y, subWidth, subHeight), zAxis);
-        nodes[2] = new QuadTree(level + 1, new Rect(x, y + subHeight, subWidth, subHeight), zAxis);
-        nodes[3] = new QuadTree(level + 1, new Rect(x + subWidth, y + subHeight, subWidth, subHeight), zAxis);
+        nodes[0] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y, subWidth, subHeight), zAxis);
+        nodes[1] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y, subWidth, subHeight), zAxis);
+        nodes[2] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y + subHeight, subWidth, subHeight), zAxis);
+        nodes[3] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y + subHeight, subWidth, subHeight), zAxis);
     }
 
     private int getIndex(GameObject toCheck)
@@ -97,16 +99,39 @@ public class QuadTree {
         {
             if (nodes[0] == null) split();
 
-            foreach (GameObject anObject in objects)
+            //foreach (GameObject anObject in objects)
+            for (int i = 0; i < objects.Count; i++)
             {
-                int index = getIndex(anObject);
+                int index = getIndex(objects[i]);
                 if (index != 1)
                 {
-                    objects.Remove(anObject);
-                    nodes[index].insert(anObject);
+                    GameObject toInsert = objects[i];
+                    objects.Remove(objects[i]);
+                    nodes[index].insert(toInsert);
                 }
             }
         }
+    }
+
+    public bool isEmpty()
+    {
+        return (objects.Count <= 0);
+    }
+
+    public void cleanup()
+    {
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null)
+            {
+                nodes[i].cleanup();
+
+                if (nodes[i].isEmpty())
+                    nodes[i] = null;
+            }
+        }
+
+        objects.RemoveAll(item => item == null);
     }
 
     public List<GameObject> retrieve(List<GameObject> returnObjects, GameObject toCheck)

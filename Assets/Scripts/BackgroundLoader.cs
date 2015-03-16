@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BackgroundLoader : MonoBehaviour
+public class BackgroundLoader : Colliding
 {
     class EntryDetails
     {
@@ -28,9 +28,6 @@ public class BackgroundLoader : MonoBehaviour
 
     [SerializeField]
     float mScale = 16.0f;
-
-    public bool? canBeCollided;
-
 
     HashSet<GameObject> myBackgrounds;
     MeshFilter mMeshFilter;

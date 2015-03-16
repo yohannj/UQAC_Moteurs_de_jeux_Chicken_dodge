@@ -34,6 +34,8 @@ public class Rupees : MonoBehaviour {
         newRupeeObj.transform.parent = gameObject.transform.parent;
         newRupeeObj.transform.localPosition = mTarget + Vector3.back * -10.1f;
         newRupee.mSpriteSheet = mSpriteSheet;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(newRupeeObj);
     }
 
     

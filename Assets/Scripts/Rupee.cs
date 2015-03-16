@@ -1,15 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public class Rupee : MonoBehaviour
+public class Rupee : Colliding
 {
 	[SerializeField]
 	internal SpriteSheet mSpriteSheet;
 
-    public bool? canBeCollided = true;
-
 	public void Start()
 	{
+        canBeCollided = true;
+
 		var newSprite = gameObject.AddComponent<Sprite>();
 		newSprite.mSpriteSheet = mSpriteSheet;
 		newSprite.mIsAnimated = true;

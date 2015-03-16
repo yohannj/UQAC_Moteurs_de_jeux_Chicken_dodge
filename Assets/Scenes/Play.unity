@@ -141,7 +141,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 197560817}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0808b63634ba207459e2ba97d00b6bd7, type: 3}
   m_Name: 
@@ -153,6 +153,8 @@ MonoBehaviour:
     width: 168
     height: 112
   zAxis: -20
+  maxObjects: 14
+  maxLevels: 8
 --- !u!4 &197560819
 Transform:
   m_ObjectHideFlags: 0

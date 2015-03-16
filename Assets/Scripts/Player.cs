@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Player : MonoBehaviour
+public class Player : Colliding
 {
 	enum FacingType { Up, Down, Left, Right };
 
@@ -27,10 +27,10 @@ public class Player : MonoBehaviour
 	bool mIsAttacking;
 	bool mIsMoving;
 
-    public bool? canBeCollided = true;
-
 	public void Start ()
 	{
+        canBeCollided = true;
+
 		mSprite = gameObject.AddComponent<Sprite>();
         transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);//GameObject.Find("Layers").GetComponent<HUDandPlayersMesh>().add_GO_to_display(gameObject);
 		mSprite.mSpriteSheet = mSpriteSheet;

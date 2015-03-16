@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Chicken : MonoBehaviour
+public class Chicken : Colliding
 {
 	[SerializeField]
 	internal SpriteSheet mSpriteSheet;
@@ -13,10 +13,10 @@ public class Chicken : MonoBehaviour
 	float mDistance = 0.0f;
 	bool mDropped;
 
-    public bool? canBeCollided = true;
-
 	public void Start()
 	{
+        canBeCollided = true;
+
 		mPosition = transform.localPosition;
 		mVelocity = ( mTarget - mPosition ).normalized * Random.Range( 2.0f, 5.0f );
 
