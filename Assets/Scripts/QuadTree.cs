@@ -2,6 +2,8 @@
  * trouvé ici : http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
  */
 
+/*
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -116,3 +118,4 @@ public class QuadTree {
         return returnObjects;
     }
 }
+*/
