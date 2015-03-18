@@ -25,6 +25,6 @@ public class Rupee : MonoBehaviour
 				newSprite.mSpriteName = "R";
 				break;
 		}
-        //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Mesh>().addSprite(newSprite);
+        newSprite.renderer.enabled = false;
 	}
 }

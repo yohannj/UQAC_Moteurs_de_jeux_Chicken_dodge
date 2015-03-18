@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Sprite : MonoBehaviour
 {
-    public struct Vertex
+    struct Vertex
     {
         public Vector3 position;
         public Vector2 uv;
@@ -20,9 +20,6 @@ public class Sprite : MonoBehaviour
     internal string mSpriteName;
 
     [SerializeField]
-    internal bool mIsUpdatedHere = true;
-
-    [SerializeField]
     internal bool mIsAnimated = false;
 
     [SerializeField]
@@ -31,15 +28,14 @@ public class Sprite : MonoBehaviour
     [SerializeField]
     internal int mAnimWait = 0;
 
-    bool mIsMaterialAdded = false;
     internal int mAnimationFrame = 1;
     int mAnimWaitCounter;
 
     MeshFilter mMeshFilter;
     MeshRenderer mMeshRender;
-    UnityEngine.Mesh mMesh;
+    public UnityEngine.Mesh mMesh;
 
-    public Vertex[] mVertex;
+    Vertex[] mVertex;
     public int[] mIndices;
 
     public Vector2 SpriteSize { get; private set; }
@@ -66,19 +62,8 @@ public class Sprite : MonoBehaviour
         UpdateMesh();
     }
 
-    public void initMeshComponents()
-    {
-        var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
-        var descr = mSpriteSheet.Sprites[spriteName];
-        mAnimWaitCounter = mAnimWait;
-        UpdateComponents(descr);
-    }
-
     public void Update()
     {
-        if (!mIsUpdatedHere)
-            return;
-
         if (!mIsAnimated)
             return;
 
@@ -106,33 +91,6 @@ public class Sprite : MonoBehaviour
             mMesh.triangles = mIndices;
             SpriteSize = descr.mSpriteSize;
         }
-    }
-
-    public bool UpdateMeshComp()
-    {
-        //if (!mIsAnimated)
-        //    return false;
-
-        if (mAnimWaitCounter > 0)
-        {
-            mAnimWaitCounter--;
-            return false;
-        }
-
-        if (Time.frameCount % mFrameSkip == 0)
-        {
-            var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
-            if (mSpriteSheet.Sprites.ContainsKey(spriteName))
-            {
-                var descr = mSpriteSheet.Sprites[spriteName];
-                UpdateComponents(descr);
-                SpriteSize = descr.mSpriteSize;
-
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 
     string FindNextFrameName()

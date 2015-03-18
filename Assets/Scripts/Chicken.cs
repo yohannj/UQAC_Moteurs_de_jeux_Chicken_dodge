@@ -23,6 +23,7 @@ public class Chicken : MonoBehaviour
 		var newSprite = gameObject.AddComponent<Chickens>();
 		newSprite.mSpriteSheet = mSpriteSheet;
 		newSprite.mSpriteName = "C" + ( mVelocity.x > 0 ? "R" : "L" );
+        newSprite.renderer.enabled = false;
 	}
 	
 	public void Update()
@@ -41,11 +42,7 @@ public class Chicken : MonoBehaviour
 
 	public void Drop()
 	{
-		var newRupeeObj = new GameObject();
-		var newRupee = newRupeeObj.AddComponent<Rupee>();
-		newRupeeObj.transform.parent = gameObject.transform.parent;
-		newRupeeObj.transform.localPosition = (Vector3) mTarget + Vector3.back * -10.1f;
-		newRupee.mSpriteSheet = mSpriteSheet;
-		mDropped = true;
+        transform.parent.GetChild(0).GetComponent<Rupees>().addRupee((Vector3)mTarget);
+        mDropped = true;
 	}
 }
