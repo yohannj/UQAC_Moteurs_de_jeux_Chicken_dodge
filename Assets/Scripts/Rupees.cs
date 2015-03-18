@@ -35,7 +35,7 @@ public class Rupees : MonoBehaviour {
         newRupeeObj.name = "Rupee #" + rupeeCount;
         rupeesJustAdded.Add(newRupeeObj);
         var newRupee = newRupeeObj.AddComponent<Rupee>();
-        newRupeeObj.transform.parent = gameObject.transform.parent;
+        newRupeeObj.transform.parent = gameObject.transform;
         newRupeeObj.transform.localPosition = mTarget + Vector3.back * -10.1f;
         newRupee.mSpriteSheet = mSpriteSheet;
     }
