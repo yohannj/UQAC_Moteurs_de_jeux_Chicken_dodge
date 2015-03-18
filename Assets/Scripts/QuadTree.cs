@@ -12,6 +12,7 @@ public class QuadTree {
     private int maxLevels;
 
     private int level;
+    private List<Vector3> previousPositions;
     private List<GameObject> objects;
     private Rect bounds;
     private QuadTree[] nodes;
@@ -25,6 +26,7 @@ public class QuadTree {
         this.maxLevels = maxLevels;
         this.bounds = bounds;
         objects = new List<GameObject>();
+        previousPositions = new List<Vector3>();
         nodes = new QuadTree[4];
         this.zAxis = zAxis;
     }
@@ -32,6 +34,7 @@ public class QuadTree {
     public void clear()
     {
         objects.Clear();
+        previousPositions.Clear();
 
         for (int i = 0; i < nodes.Length; i++)
         {
@@ -96,10 +99,11 @@ public class QuadTree {
         }
 
         objects.Add(newObject);
+        previousPositions.Add(newObject.transform.position);
 
         if (objects.Count > maxObjects && level < maxLevels)
         {
-            if (nodes[0] == null) split();
+            if (nodes[0] == null || nodes[1] == null || nodes[2] == null || nodes[3] == null) split();
 
             //foreach (GameObject anObject in objects)
             for (int i = 0; i < objects.Count; i++)
@@ -109,6 +113,7 @@ public class QuadTree {
                 {
                     nodes[index].insert(objects[i]);
                     objects.RemoveAt(i);
+                    previousPositions.RemoveAt(i);
                 }
             }
         }
@@ -132,7 +137,14 @@ public class QuadTree {
             }
         }
 
-        objects.RemoveAll(item => item == null);
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i] == null)
+            {
+                objects.RemoveAt(i);
+                previousPositions.RemoveAt(i);
+            }
+        }
     }
 
     public List<GameObject> retrieve(List<GameObject> returnObjects, GameObject toCheck)
@@ -195,6 +207,20 @@ public class QuadTree {
         Vector3 position = toCheck.transform.position;
         return ((position.x >= bounds.x && position.x <= bounds.x + bounds.width) &&
                 (position.y <= bounds.y && position.y >= bounds.y - bounds.height));
+    }
+
+    private bool hasMoved(int index)
+    {
+        return previousPositions[index] != objects[index].transform.position;
+    }
+
+    public void update()
+    {
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null)
+                nodes[i].update();
+        }
     }
 
     public override string ToString()

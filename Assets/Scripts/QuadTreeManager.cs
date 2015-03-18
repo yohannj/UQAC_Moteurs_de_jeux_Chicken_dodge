@@ -25,7 +25,7 @@ public class QuadTreeManager : MonoBehaviour {
             GameObject[] allObjects = FindObjectsOfType<GameObject>();
             for (int i = 0; i < allObjects.Length; i++)
             {
-                if (allObjects[i].GetComponent<Colliding>() != null)
+                if (allObjects[i].GetComponent<Colliding>() != null && quadTree.isInBound(allObjects[i]))
                     quadTree.insert(allObjects[i]);
             }
 
@@ -46,6 +46,7 @@ public class QuadTreeManager : MonoBehaviour {
         }
 
         quadTree.cleanup();
+        quadTree.update();
         quadTree.Draw();
 
         Debug.Log(quadTree.ToString());
