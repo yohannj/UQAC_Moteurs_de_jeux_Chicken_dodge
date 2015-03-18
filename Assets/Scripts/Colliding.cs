@@ -15,7 +15,7 @@ public class Colliding : MonoBehaviour {
         List<GameObject> res = new List<GameObject>();
         foreach (Transform child in parent.transform)
         {
-            if (isPossibleCollision(child)) //TODO: Complete
+            if (isPossibleCollision(child) && isNearOf(child) && isBoundingBoxTouchingWith(child) && isThereAVectorCrossingWith(child)) //4 level of collision detection
             {
                 res.Add(child.gameObject);
             }
@@ -26,5 +26,23 @@ public class Colliding : MonoBehaviour {
     bool isPossibleCollision(Transform other)
     {
         return other.GetComponent<Colliding>().canBeCollided == true;
+    }
+
+    bool isNearOf(Transform other)
+    {
+        //TODO use quadtree
+        return false;
+    }
+
+    bool isBoundingBoxTouchingWith(Transform other)
+    {
+        //TODO
+        return false;
+    }
+
+    bool isThereAVectorCrossingWith(Transform other)
+    {
+        //TODO
+        return false;
     }
 }
