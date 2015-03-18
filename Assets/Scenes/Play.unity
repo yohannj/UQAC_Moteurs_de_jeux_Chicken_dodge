@@ -153,7 +153,7 @@ MonoBehaviour:
     width: 184
     height: 144
   zAxis: -20
-  maxObjects: 14
+  maxObjects: 4
   maxLevels: 8
 --- !u!4 &197560819
 Transform:
