@@ -61,10 +61,10 @@ public class QuadTree {
 
         int index = -1;
         double verticalMidpoint = bounds.x + (bounds.width / 2);
-        double horizontalMidpoint = bounds.y + (bounds.height / 2);
+        double horizontalMidpoint = bounds.y - (bounds.height / 2);
 
-        bool topQuadrant = (toCheck.transform.position.y < horizontalMidpoint && toCheck.transform.position.y + s_toCheck.SpriteSize.y < horizontalMidpoint);
-        bool bottomQuadrant = (toCheck.transform.position.y > horizontalMidpoint);
+        bool topQuadrant = (toCheck.transform.position.y > horizontalMidpoint && toCheck.transform.position.y + s_toCheck.SpriteSize.y > horizontalMidpoint);
+        bool bottomQuadrant = (toCheck.transform.position.y < horizontalMidpoint);
 
         if (toCheck.transform.position.x < verticalMidpoint && toCheck.transform.position.x + s_toCheck.SpriteSize.x < verticalMidpoint)
         {
@@ -103,7 +103,7 @@ public class QuadTree {
             for (int i = 0; i < objects.Count; i++)
             {
                 int index = getIndex(objects[i]);
-                if (index != 1)
+                if (index != -1)
                 {
                     GameObject toInsert = objects[i];
                     objects.Remove(objects[i]);
