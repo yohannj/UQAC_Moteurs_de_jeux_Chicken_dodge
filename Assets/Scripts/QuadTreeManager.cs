@@ -4,7 +4,7 @@ using System.Collections;
 public class QuadTreeManager : MonoBehaviour {
 
     QuadTree quadTree;
-    bool init = false;
+    bool init = false; // Instead, use: "void Start()"?
 
     public Rect bounds;
     public float zAxis;

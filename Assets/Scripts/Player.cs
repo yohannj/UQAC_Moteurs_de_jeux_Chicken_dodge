@@ -57,22 +57,22 @@ public class Player : Colliding
 		Vector2 delta = Vector2.zero;
 		if ( Input.GetKey( KeyCode.UpArrow ) )
 		{
-			delta += Vector2.up;
+            delta += TryGo(Vector2.up);
 			mFacing = FacingType.Up;
 		}
 		if ( Input.GetKey( KeyCode.DownArrow ) )
 		{
-			delta -= Vector2.up;
+			delta += TryGo(-Vector2.up);
 			mFacing = FacingType.Down;
 		}
 		if ( Input.GetKey( KeyCode.LeftArrow ) )
 		{
-			delta -= Vector2.right;
+			delta += TryGo(-Vector2.right);
 			mFacing = FacingType.Left;
 		}
 		if ( Input.GetKey( KeyCode.RightArrow ) )
 		{
-			delta += Vector2.right;
+			delta += TryGo(Vector2.right);
 			mFacing = FacingType.Right;
 		}
 
@@ -93,4 +93,21 @@ public class Player : Colliding
 			mSprite.mIsAnimated ? "" : "1"
 		);
 	}
+
+    Vector2 TryGo(Vector2 direction)
+    {
+        Debug.Log(direction);
+        transform.Translate(direction * 3.0f); //translate
+        bool is_colliding = IsCollidingWith(GameObject.Find("1_PlayGround")).Count > 0;
+        transform.Translate(-direction * 3.0f); //remove translation
+        if (is_colliding)
+        {
+            return Vector2.zero;
+        }
+        else
+        {
+            return direction;
+        }
+        
+    }
 }
