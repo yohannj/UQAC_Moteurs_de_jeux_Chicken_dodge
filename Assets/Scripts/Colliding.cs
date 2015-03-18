@@ -41,21 +41,23 @@ public class Colliding : MonoBehaviour {
         Vector2 my_size = GetComponent<Sprite>().getSpriteSize();
 
         //Circles
-        Vector3 other_center = other.position;
-        Vector3 my_center = transform.position;
-        float other_radius = calcSquareDist(other_size.x / 2, other_size.y / 2);
-        float my_radius = calcSquareDist(my_size.x / 2, my_size.y / 2);
-        float dist_centers = calcSquareDist(other_center.x - my_center.x, other_center.y - my_center.y);
+        Vector2 other_center = (Vector2)other.position + (other_size / 2);
+        Vector2 my_center = (Vector2)transform.position + (my_size / 2);
+        float other_radius = calcDist(other_size.x / 2, other_size.y / 2);
+        float my_radius = calcDist(my_size.x / 2, my_size.y / 2);
+        float dist_centers = calcDist(other_center.x - my_center.x, other_center.y - my_center.y);
 
-        if (dist_centers < other_radius + my_radius)
+        if (dist_centers > other_radius + my_radius) //Circles not crossing
         {
-            return true;
+            //Debug.Log(dist_centers + " | " + (other_radius + my_radius) + " | " + other_radius + " | " + my_radius + " | " + other.position + " | " + transform.position);
+            return false;
         }
         
         //Rectangles TODO
 
 
-        return false;
+
+        return true;
     }
 
     bool isThereAVectorCrossingWith(Transform other)
@@ -64,8 +66,8 @@ public class Colliding : MonoBehaviour {
         return true;
     }
 
-    float calcSquareDist(float dx, float dy)
+    float calcDist(float dx, float dy)
     {
-        return dx * dx + dy * dy;
+        return Mathf.Sqrt(dx * dx + dy * dy);
     }
 }
