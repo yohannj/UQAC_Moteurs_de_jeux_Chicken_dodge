@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class QuadTreeManager : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class QuadTreeManager : MonoBehaviour {
     public Rect bounds;
     public float zAxis;
     public int maxObjects, maxLevels;
+
+    List<GameObject> potentialInsertions = new List<GameObject>();
 
     void Awake()
     {
@@ -29,6 +32,19 @@ public class QuadTreeManager : MonoBehaviour {
             init = true;
         }
 
+        for (int i = 0; i < potentialInsertions.Count; i++ )
+        {
+            GameObject toCheck = potentialInsertions[i];
+
+            Vector3 position = toCheck.transform.position;
+
+            if (quadTree.isInBound(toCheck))
+            {
+                quadTree.insert(toCheck);
+                potentialInsertions.Remove(toCheck);
+            }
+        }
+
         quadTree.cleanup();
         quadTree.Draw();
 
@@ -37,6 +53,6 @@ public class QuadTreeManager : MonoBehaviour {
 
     public void AddObject(GameObject toAdd)
     {
-        quadTree.insert(toAdd);
+        potentialInsertions.Add(toAdd);
     }
 }

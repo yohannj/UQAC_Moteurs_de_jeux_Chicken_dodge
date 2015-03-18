@@ -62,10 +62,10 @@ public class QuadTree {
         if (s_toCheck == null) throw new Exception(toCheck.name + " et ses enfants n'ont pas de Sprite!");
 
         int index = -1;
-        double verticalMidpoint = bounds.x + (bounds.width / 2);
-        double horizontalMidpoint = bounds.y - (bounds.height / 2);
+        double verticalMidpoint = bounds.x + (bounds.width / 2f);
+        double horizontalMidpoint = bounds.y - (bounds.height / 2f);
 
-        bool topQuadrant = (toCheck.transform.position.y > horizontalMidpoint && toCheck.transform.position.y + s_toCheck.SpriteSize.y > horizontalMidpoint);
+        bool topQuadrant = (toCheck.transform.position.y > horizontalMidpoint && toCheck.transform.position.y - s_toCheck.SpriteSize.y > horizontalMidpoint);
         bool bottomQuadrant = (toCheck.transform.position.y < horizontalMidpoint);
 
         if (toCheck.transform.position.x < verticalMidpoint && toCheck.transform.position.x + s_toCheck.SpriteSize.x < verticalMidpoint)
@@ -107,9 +107,8 @@ public class QuadTree {
                 int index = getIndex(objects[i]);
                 if (index != -1)
                 {
-                    GameObject toInsert = objects[i];
-                    objects.Remove(objects[i]);
-                    nodes[index].insert(toInsert);
+                    nodes[index].insert(objects[i]);
+                    objects.RemoveAt(i);
                 }
             }
         }
@@ -189,6 +188,13 @@ public class QuadTree {
         }
 
         return toReturn;
+    }
+
+    public bool isInBound(GameObject toCheck)
+    {
+        Vector3 position = toCheck.transform.position;
+        return ((position.x >= bounds.x && position.x <= bounds.x + bounds.width) &&
+                (position.y <= bounds.y && position.y >= bounds.y - bounds.height));
     }
 
     public override string ToString()
