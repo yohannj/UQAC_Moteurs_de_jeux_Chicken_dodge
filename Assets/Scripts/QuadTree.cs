@@ -166,4 +166,33 @@ public class QuadTree {
                 nodes[i].Draw();
         }
     }
+
+    public int getLevel()
+    {
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null)
+                return nodes[i].getLevel();
+        }
+
+        return level;
+    }
+
+    public int getNumObjects()
+    {
+        int toReturn = objects.Count;
+
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            if (nodes[i] != null)
+                toReturn += nodes[i].getNumObjects();
+        }
+
+        return toReturn;
+    }
+
+    public override string ToString()
+    {
+        return "Level = " + getLevel() + ". Number of objects = " + getNumObjects();
+    }
 }

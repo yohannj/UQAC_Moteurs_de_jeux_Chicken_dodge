@@ -24,6 +24,8 @@ public class ChickenSpawner : MonoBehaviour
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
+    int chickenCount = 0;
+
     void Awake()
     {
         chickensJustAdded = new HashSet<GameObject>();
@@ -50,7 +52,9 @@ public class ChickenSpawner : MonoBehaviour
 
     void Spawn()
     {
+        chickenCount++;
         var newChickenObj = new GameObject();
+        newChickenObj.name = "Chicken #" + chickenCount;
         chickensJustAdded.Add(newChickenObj);
         var newChicken = newChickenObj.AddComponent<Chicken>();
         newChicken.mSpriteSheet = mSpriteSheet;

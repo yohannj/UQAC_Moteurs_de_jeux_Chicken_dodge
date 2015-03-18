@@ -28,5 +28,7 @@ public class Rupee : Colliding
 				break;
 		}
         newSprite.renderer.enabled = false;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(gameObject);
 	}
 }

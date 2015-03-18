@@ -31,6 +31,8 @@ public class QuadTreeManager : MonoBehaviour {
 
         quadTree.cleanup();
         quadTree.Draw();
+
+        Debug.Log(quadTree.ToString());
 	}
 
     public void AddObject(GameObject toAdd)

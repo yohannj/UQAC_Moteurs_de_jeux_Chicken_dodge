@@ -25,6 +25,8 @@ public class Chicken : Colliding
 		newSprite.mIsAnimated = true;
 		newSprite.mSpriteName = "C" + ( mVelocity.x > 0 ? "R" : "L" );
         newSprite.renderer.enabled = false;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(gameObject);
 	}
 	
 	public void Update()
