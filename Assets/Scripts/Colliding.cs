@@ -30,7 +30,7 @@ public class Colliding : MonoBehaviour {
 
     bool isNearOf(Transform other)
     {
-        //TODO use quadtree
+        //TODO use quad tree
         return true;
     }
 
@@ -52,11 +52,18 @@ public class Colliding : MonoBehaviour {
             return false;
         }
         
-        //Rectangles TODO
+        //Rectangles
+        if (other.position.x < transform.position.x + my_size.x
+            && transform.position.x < other.position.x + other_size.x
+            && other.position.y < transform.position.y + my_size.y
+            && transform.position.y < other.position.y + other_size.y) //Rectangles are crossing
+        {
+            return true;
+        }
 
 
 
-        return true;
+        return false;
     }
 
     bool isThereAVectorCrossingWith(Transform other)
