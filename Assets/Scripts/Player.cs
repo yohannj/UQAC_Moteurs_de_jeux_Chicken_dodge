@@ -52,6 +52,8 @@ public class Player : Colliding
 			mIsAttacking = true;
 			mSprite.mAnimationFrame = 1;
 			mSprite.mFrameSkip = 1;
+
+            tryKillChiken();
 		}
 
 		Vector2 delta = Vector2.zero;
@@ -113,6 +115,13 @@ public class Player : Colliding
         }
         transform.Translate(-direction * 3.0f); //remove translation
         return res;
-        
+    }
+
+    void tryKillChiken()
+    {
+        foreach (GameObject chicken in IsCollidingWith(GameObject.Find("3_Chicken")))
+        {
+            Destroy(chicken);
+        }
     }
 }

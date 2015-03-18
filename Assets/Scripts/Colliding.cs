@@ -25,7 +25,7 @@ public class Colliding : MonoBehaviour {
 
     bool isPossibleCollision(Transform other)
     {
-        return other.GetComponent<Colliding>().canBeCollided;
+        return other.GetComponent<Colliding>() != null && other.GetComponent<Colliding>().canBeCollided;
     }
 
     bool isNearOf(Transform other)
