@@ -96,17 +96,23 @@ public class Player : Colliding
 
     Vector2 TryGo(Vector2 direction)
     {
+        Vector2 res = Vector2.zero;
         transform.Translate(direction * 3.0f); //translate
         bool is_colliding = IsCollidingWith(GameObject.Find("1_PlayGround")).Count > 0;
+        if (!is_colliding)
+        {
+            res = direction;
+
+            int nb_rupee_collided = 0;
+            foreach (GameObject rupee in IsCollidingWith(GameObject.Find("3.1_Rupee")))
+            {
+                ++nb_rupee_collided;
+                Destroy(rupee);
+            }
+            mScore.addScore(nb_rupee_collided);
+        }
         transform.Translate(-direction * 3.0f); //remove translation
-        if (is_colliding)
-        {
-            return Vector2.zero;
-        }
-        else
-        {
-            return direction;
-        }
+        return res;
         
     }
 }
