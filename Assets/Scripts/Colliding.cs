@@ -106,52 +106,61 @@ public class Colliding : MonoBehaviour
         return Mathf.Sqrt(dx * dx + dy * dy);
     }
 
-    //Source : Stefan Bader, posted on http://www.stefanbader.ch/faster-line-segment-intersection-for-unity3dc/ as seen on 2015-03-18 13:10, based on "Faster Line Segment Intersection", Franklin Antonio, Graphics Gems III, 1992, pp. 199-202
     bool segmentsIntersect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
     {
-        Vector2 a = p2 - p1;
-        Vector2 b = p3 - p4;
-        Vector2 c = p1 - p3;
+        Vector2? intersection_point = LineIntersectionPoint(p1, p2, p3, p4);
+        if (intersection_point == null)
+            return false;
 
-        float alphaNumerator = b.y * c.x - b.x * c.y;
-        float alphaDenominator = a.y * b.x - a.x * b.y;
-        float betaNumerator = a.x * c.y - a.y * c.x;
-        float betaDenominator = alphaDenominator; /*2013/07/05, fix by Deniz*/
+        float min_x_1 = Mathf.Min(p1.x, p2.x);
+        float min_x_2 = Mathf.Min(p3.x, p4.x);
+        float max_x_1 = Mathf.Max(p1.x, p2.x);
+        float max_x_2 = Mathf.Max(p3.x, p4.x);
 
-        bool doIntersect = true;
+        float min_y_1 = Mathf.Min(p1.y, p2.y);
+        float min_y_2 = Mathf.Min(p3.y, p4.y);
+        float max_y_1 = Mathf.Min(p1.y, p2.y);
+        float max_y_2 = Mathf.Min(p3.y, p4.y);
 
-        if (alphaDenominator == 0 || betaDenominator == 0)
+        float x = ((Vector2)intersection_point).x;
+        float y = ((Vector2)intersection_point).y;
+
+        //Check if the intersection point is on both segment
+        if(min_x_1 <= x && x <= max_x_1
+            && min_x_2 <= x && x <= max_x_2
+            && min_y_1 <= y && y <= max_y_1
+            && min_y_2 <= y && y <= max_y_2)
         {
-            doIntersect = false;
-        }
-        else
-        {
-
-            if (alphaDenominator > 0)
-            {
-                if (alphaNumerator < 0 || alphaNumerator > alphaDenominator)
-                {
-                    doIntersect = false;
-                }
-            }
-            else if (alphaNumerator > 0 || alphaNumerator < alphaDenominator)
-            {
-                doIntersect = false;
-            }
-
-            if (doIntersect && betaDenominator > 0)
-            {
-                if (betaNumerator < 0 || betaNumerator > betaDenominator)
-                {
-                    doIntersect = false;
-                }
-            }
-            else if (betaNumerator > 0 || betaNumerator < betaDenominator)
-            {
-                doIntersect = false;
-            }
+            return true;
         }
 
-        return doIntersect;
+        return false;
+    }
+
+    //Source : mas, posted on http://www.wyrmtale.com/blog/2013/115/2d-line-intersection-in-c as seen on 2015-03-18 13:10
+    //Determined the method is Cramer's rule and verified the code correctly follow it
+    //Modified case delta == 0 to null instead of an exception (there are no intersection, as say Cramer's rule). Modified return type to Vector2? instead of Vector2 to be able to return null.
+    Vector2? LineIntersectionPoint(Vector2 ps1, Vector2 pe1, Vector2 ps2, Vector2 pe2)
+    {
+        // Get A,B,C of first line - points : ps1 to pe1
+        float A1 = pe1.y - ps1.y;
+        float B1 = ps1.x - pe1.x;
+        float C1 = A1 * ps1.x + B1 * ps1.y;
+
+        // Get A,B,C of second line - points : ps2 to pe2
+        float A2 = pe2.y - ps2.y;
+        float B2 = ps2.x - pe2.x;
+        float C2 = A2 * ps2.x + B2 * ps2.y;
+
+        // Get delta and check if the lines are parallel
+        float delta = A1 * B2 - A2 * B1;
+        if (delta == 0)
+            return null;
+
+        // now return the Vector2 intersection point
+        return new Vector2(
+            (B2 * C1 - B1 * C2) / delta,
+            (A1 * C2 - A2 * C1) / delta
+        );
     }
 }
