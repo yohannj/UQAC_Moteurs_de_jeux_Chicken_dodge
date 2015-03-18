@@ -10,11 +10,13 @@ using System;
 public class QuadTree {
     private int maxObjects;
     private int maxLevels;
-    private Rect bounds;
-    private float zAxis;
+
     private int level;
     private List<GameObject> objects;
+    private Rect bounds;
     private QuadTree[] nodes;
+
+    private float zAxis;
 
     public QuadTree(int level, int maxObjects, int maxLevels, Rect bounds, float zAxis)
     {
@@ -43,15 +45,15 @@ public class QuadTree {
 
     private void split()
     {
-        int subWidth = (int)(bounds.width / 2);
-        int subHeight = (int)(bounds.height / 2);
-        int x = (int)bounds.x;
-        int y = (int)bounds.y;
+        float subWidth = bounds.width / 2f;
+        float subHeight = bounds.height / 2f;
+        float x = bounds.x;
+        float y = bounds.y;
 
         nodes[0] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y, subWidth, subHeight), zAxis);
         nodes[1] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y, subWidth, subHeight), zAxis);
-        nodes[2] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y + subHeight, subWidth, subHeight), zAxis);
-        nodes[3] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y + subHeight, subWidth, subHeight), zAxis);
+        nodes[2] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y - subHeight, subWidth, subHeight), zAxis);
+        nodes[3] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y - subHeight, subWidth, subHeight), zAxis);
     }
 
     private int getIndex(GameObject toCheck)
