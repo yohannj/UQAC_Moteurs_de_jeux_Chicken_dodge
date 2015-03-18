@@ -25,24 +25,47 @@ public class Colliding : MonoBehaviour {
 
     bool isPossibleCollision(Transform other)
     {
-        return other.GetComponent<Colliding>().canBeCollided == true;
+        return true;
+        //return other.GetComponent<Colliding>().canBeCollided == true;
     }
 
     bool isNearOf(Transform other)
     {
         //TODO use quadtree
-        return false;
+        return true;
     }
 
     bool isBoundingBoxTouchingWith(Transform other)
     {
-        //TODO
+        Vector2 other_size = other.GetComponent<Sprite>().getSpriteSize();
+        Vector2 my_size = GetComponent<Sprite>().getSpriteSize();
+
+        //Circles
+        Vector3 other_center = other.position;
+        Vector3 my_center = transform.position;
+        float other_radius = calcSquareDist(other_size.x / 2, other_size.y / 2);
+        float my_radius = calcSquareDist(my_size.x / 2, my_size.y / 2);
+        float dist_centers = calcSquareDist(other_center.x - my_center.x, other_center.y - my_center.y);
+
+        if (dist_centers < other_radius + my_radius)
+        {
+            return true;
+        }
+        
+        //Rectangles TODO
+
+
         return false;
     }
 
     bool isThereAVectorCrossingWith(Transform other)
     {
         //TODO
-        return false;
+        return true;
+    }
+
+    float calcSquareDist(float dx, float dy)
+    {
+        return dx * dx + dy * dy;
     }
 }

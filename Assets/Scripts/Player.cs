@@ -96,7 +96,6 @@ public class Player : Colliding
 
     Vector2 TryGo(Vector2 direction)
     {
-        Debug.Log(direction);
         transform.Translate(direction * 3.0f); //translate
         bool is_colliding = IsCollidingWith(GameObject.Find("1_PlayGround")).Count > 0;
         transform.Translate(-direction * 3.0f); //remove translation
