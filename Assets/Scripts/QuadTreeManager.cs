@@ -21,27 +21,18 @@ public class QuadTreeManager : MonoBehaviour {
 
 	void Update ()
     {
-/*        Stopwatch sw = new Stopwatch();*/
-        
-
 		quadTree.init ();
         
 		foreach(GameObject anObject in objects){
 			if (anObject.GetComponent<Colliding>()) {
-				quadTree.insert (anObject);
+				quadTree.insert (anObject); //Commenter pour une meilleure fluidité
 			}
 		}
         
         objects = new HashSet<GameObject>();
-        /*sw.Start();*/
-		quadTree.shapeQuadTree();
-        /*sw.Stop();*/
+        quadTree.shapeQuadTree(); //Commenter pour une meilleure fluidité
 
-        quadTree.Draw();
-
-        
-//         long nanoseconds = sw.ElapsedTicks / (Stopwatch.Frequency / (1000L * 1000L));
-//         UnityEngine.Debug.Log(nanoseconds);
+        quadTree.Draw(); //Commenter pour une meilleure fluidité
 	}
 
     public void AddObject(GameObject toAdd)

@@ -27,7 +27,7 @@ public class QuadTree {
         this.bounds = bounds;
         all_objects = new HashSet<GameObject>();
         objects = new HashSet<GameObject>();
-        nodes = new QuadTree[4];
+        nodes = new QuadTree[0];
         this.zAxis = zAxis;
     }
 
@@ -36,8 +36,7 @@ public class QuadTree {
         all_objects.RemoveWhere(o => o == null);
         objects = new HashSet<GameObject>(all_objects);
 
-        for (int i = 0; i < nodes.Length; i++)
-        	nodes[i] = null;
+        nodes = new QuadTree[0];
     }
 
     private void split()
@@ -47,6 +46,7 @@ public class QuadTree {
         float x = bounds.x;
         float y = bounds.y;
 
+        nodes = new QuadTree[4];
         nodes[0] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y, subWidth, subHeight), zAxis);
         nodes[1] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y, subWidth, subHeight), zAxis);
         nodes[2] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y - subHeight, subWidth, subHeight), zAxis);
@@ -119,11 +119,8 @@ public class QuadTree {
 
 		for (int i = 0; i < nodes.Length; i++)
 		{
-			if (nodes[i] != null)
-			{
 				if(nodes[i].inSameRect(go1, go2))
 					return true;
-			}
 		}
 
 		return false;
@@ -143,7 +140,6 @@ public class QuadTree {
 
         for (int i = 0; i < nodes.Length; i++)
         {
-            if (nodes[i] != null)
                 nodes[i].Draw();
         }
     }

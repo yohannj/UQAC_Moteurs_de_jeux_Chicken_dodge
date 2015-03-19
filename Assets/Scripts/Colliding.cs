@@ -43,7 +43,8 @@ public class Colliding : MonoBehaviour
 
     bool isNearOf(Transform other)
     {
-		return GameObject.Find ("QuadTreeManager").GetComponent<QuadTreeManager>().inSameRect(gameObject, other.gameObject);
+        //return true; //Enlever le commentaire pour une meilleure fluidité
+        return GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().inSameRect(gameObject, other.gameObject); //Commenter pour une meilleure fluidité
     }
 
     bool isBoundingBoxTouchingWith(Transform other)
