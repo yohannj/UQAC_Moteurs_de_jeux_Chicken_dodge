@@ -25,14 +25,14 @@ public class QuadTreeManager : MonoBehaviour {
         
 		foreach(GameObject anObject in objects){
 			if (anObject.GetComponent<Colliding>()) {
-				quadTree.insert (anObject); //Commenter pour une meilleure fluidité
+				//quadTree.insert (anObject); //Commenter pour une meilleure fluidité
 			}
 		}
         
         objects = new HashSet<GameObject>();
-        quadTree.shapeQuadTree(); //Commenter pour une meilleure fluidité
+        //quadTree.shapeQuadTree(); //Commenter pour une meilleure fluidité
 
-        quadTree.Draw(); //Commenter pour une meilleure fluidité
+        //quadTree.Draw(); //Commenter pour une meilleure fluidité
 	}
 
     public void AddObject(GameObject toAdd)
