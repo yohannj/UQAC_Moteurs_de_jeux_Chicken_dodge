@@ -13,8 +13,6 @@ public class Chicken : Colliding
 	float mDistance = 0.0f;
 	bool mDropped;
 
-    MMesh mMesh;
-
 	public void Start()
 	{
         canBeCollided = true;
@@ -22,8 +20,9 @@ public class Chicken : Colliding
 		mPosition = transform.localPosition;
 		mVelocity = ( mTarget - mPosition ).normalized * Random.Range( 2.0f, 5.0f );
 
-		var newSprite = gameObject.AddComponent<Chickens>();
+		var newSprite = gameObject.AddComponent<Sprite>();
 		newSprite.mSpriteSheet = mSpriteSheet;
+		newSprite.mIsAnimated = true;
 		newSprite.mSpriteName = "C" + ( mVelocity.x > 0 ? "R" : "L" );
         newSprite.renderer.enabled = false;
 
