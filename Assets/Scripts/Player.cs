@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Player : MonoBehaviour
+public class Player : Colliding
 {
 	enum FacingType { Up, Down, Left, Right };
 
@@ -29,8 +29,10 @@ public class Player : MonoBehaviour
 
 	public void Start ()
 	{
+        canBeCollided = true;
+
 		mSprite = gameObject.AddComponent<Sprite>();
-        transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);//GameObject.Find("Layers").GetComponent<HUDandPlayersMesh>().add_GO_to_display(gameObject);
+        transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);
 		mSprite.mSpriteSheet = mSpriteSheet;
 		mSprite.AnimationEndedEvent += delegate {
 			mIsAttacking = false;
@@ -41,6 +43,8 @@ public class Player : MonoBehaviour
 		UpdateSprite();
 
         mSprite.renderer.enabled = false;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(gameObject);
 	}
 	
 	public void Update ()
@@ -50,27 +54,29 @@ public class Player : MonoBehaviour
 			mIsAttacking = true;
 			mSprite.mAnimationFrame = 1;
 			mSprite.mFrameSkip = 1;
+
+            tryKillChiken();
 		}
 
 		Vector2 delta = Vector2.zero;
 		if ( Input.GetKey( KeyCode.UpArrow ) )
 		{
-			delta += Vector2.up;
+            delta += TryGo(Vector2.up);
 			mFacing = FacingType.Up;
 		}
 		if ( Input.GetKey( KeyCode.DownArrow ) )
 		{
-			delta -= Vector2.up;
+			delta += TryGo(-Vector2.up);
 			mFacing = FacingType.Down;
 		}
 		if ( Input.GetKey( KeyCode.LeftArrow ) )
 		{
-			delta -= Vector2.right;
+			delta += TryGo(-Vector2.right);
 			mFacing = FacingType.Left;
 		}
 		if ( Input.GetKey( KeyCode.RightArrow ) )
 		{
-			delta += Vector2.right;
+			delta += TryGo(Vector2.right);
 			mFacing = FacingType.Right;
 		}
 
@@ -91,4 +97,33 @@ public class Player : MonoBehaviour
 			mSprite.mIsAnimated ? "" : "1"
 		);
 	}
+
+    Vector2 TryGo(Vector2 direction)
+    {
+        Vector2 res = Vector2.zero;
+        transform.Translate(direction * 3.0f); //translate
+        bool is_colliding = isCollidingWith(GameObject.Find("1_PlayGround"));
+        if (!is_colliding)
+        {
+            res = direction;
+
+            int nb_rupee_collided = 0;
+            foreach (GameObject rupee in collidingWith(GameObject.Find("3.1_Rupee")))
+            {
+                ++nb_rupee_collided;
+                Destroy(rupee);
+            }
+            mScore.addScore(nb_rupee_collided);
+        }
+        transform.Translate(-direction * 3.0f); //remove translation
+        return res;
+    }
+
+    void tryKillChiken()
+    {
+        foreach (GameObject chicken in collidingWith(GameObject.Find("3_Chicken")))
+        {
+            Destroy(chicken);
+        }
+    }
 }

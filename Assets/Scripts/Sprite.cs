@@ -136,4 +136,10 @@ public class Sprite : MonoBehaviour
 		};
         mIndices = new[] { 2, 1, 0, 3, 2, 0 };
     }
+
+    public Vector2 getSpriteSize()
+    {
+        var spriteName = mIsAnimated ? FindNextFrameName() : mSpriteName;
+        return mSpriteSheet.Sprites[spriteName].mSpriteSize;
+    }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public class Rupee : MonoBehaviour
+public class Rupee : Colliding
 {
 	[SerializeField]
 	internal SpriteSheet mSpriteSheet;
 
 	public void Start()
 	{
+        canBeCollided = true;
+
 		var newSprite = gameObject.AddComponent<Sprite>();
 		newSprite.mSpriteSheet = mSpriteSheet;
 		newSprite.mIsAnimated = true;
@@ -26,5 +28,7 @@ public class Rupee : MonoBehaviour
 				break;
 		}
         newSprite.renderer.enabled = false;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(gameObject);
 	}
 }

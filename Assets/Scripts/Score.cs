@@ -48,4 +48,8 @@ public class Score : MonoBehaviour
         rupee_newSprite.renderer.enabled = false;
         transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(rupee_GO);
 	}
+
+    public void addScore(int score_to_add) {
+        Value += score_to_add;
+    }
 }

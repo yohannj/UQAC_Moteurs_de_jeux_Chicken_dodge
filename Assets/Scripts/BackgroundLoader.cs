@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BackgroundLoader : MonoBehaviour
+public class BackgroundLoader : Colliding
 {
     class EntryDetails
     {
@@ -29,14 +29,16 @@ public class BackgroundLoader : MonoBehaviour
     [SerializeField]
     float mScale = 16.0f;
 
-
     HashSet<GameObject> myBackgrounds;
     MeshFilter mMeshFilter;
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
+
+
     void Awake()
     {
+        canBeCollided = (gameObject.name == "1_PlayGround");
         myBackgrounds = new HashSet<GameObject>();
         SpriteBatching.Initialize(ref mMesh, ref mMeshFilter, ref mMeshRender, gameObject, mSpriteSheet);
     }
@@ -54,6 +56,12 @@ public class BackgroundLoader : MonoBehaviour
                     var entry = EntryMap[c];
                     var spriteGO = new GameObject();
                     myBackgrounds.Add(spriteGO);
+                    spriteGO.AddComponent<DefaultCollider>();
+                    spriteGO.name = "BackGround #"+myBackgrounds.Count;
+                    if (transform.name == "1_PlayGround")
+                    {
+                        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(spriteGO);
+                    }
                     var newSprite = spriteGO.AddComponent<Sprite>();
                     newSprite.mSpriteSheet = mSpriteSheet;
                     newSprite.mSpriteName = entry.spriteName;

@@ -13,6 +13,8 @@ public class Rupees : MonoBehaviour {
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
+    int rupeeCount = 0;
+
     void Awake()
     {
         rupeesJustAdded = new HashSet<GameObject>();
@@ -28,10 +30,12 @@ public class Rupees : MonoBehaviour {
 
     public void addRupee(Vector3 mTarget)
     {
+        rupeeCount++;
         var newRupeeObj = new GameObject();
+        newRupeeObj.name = "Rupee #" + rupeeCount;
         rupeesJustAdded.Add(newRupeeObj);
         var newRupee = newRupeeObj.AddComponent<Rupee>();
-        newRupeeObj.transform.parent = gameObject.transform.parent;
+        newRupeeObj.transform.parent = gameObject.transform;
         newRupeeObj.transform.localPosition = mTarget + Vector3.back * -10.1f;
         newRupee.mSpriteSheet = mSpriteSheet;
     }
