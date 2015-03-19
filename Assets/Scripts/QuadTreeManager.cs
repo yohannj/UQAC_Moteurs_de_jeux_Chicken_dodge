@@ -11,7 +11,9 @@ public class QuadTreeManager : MonoBehaviour {
     public float zAxis;
     public int maxObjects, maxLevels;
 
-    List<GameObject> potentialInsertions = new List<GameObject>();
+	bool allInserted;
+
+    List<GameObject> objects = new List<GameObject>();
 
     void Awake()
     {
@@ -20,40 +22,56 @@ public class QuadTreeManager : MonoBehaviour {
 
 	void Update ()
     {
-        if (!init)
+		allInserted = false;
+        /*if (!init)
         {
             GameObject[] allObjects = FindObjectsOfType<GameObject>();
             for (int i = 0; i < allObjects.Length; i++)
             {
                 if (allObjects[i].GetComponent<Colliding>() != null && quadTree.isInBound(allObjects[i]))
-                    quadTree.insert(allObjects[i]);
+                    //quadTree.insert(allObjects[i]);
+					objects.Insert (allObjects[i]);
             }
 
             init = true;
-        }
+        }*/
 
-        for (int i = 0; i < potentialInsertions.Count; i++ )
-        {
-            GameObject toCheck = potentialInsertions[i];
+		quadTree.clear ();
 
-            Vector3 position = toCheck.transform.position;
+		//objects = FindObjectsOfType<GameObject>();
 
-            if (quadTree.isInBound(toCheck))
-            {
-                quadTree.insert(toCheck);
-                potentialInsertions.Remove(toCheck);
-            }
-        }
+		//objects.RemoveAll(o => o == null);
+		int added = 0;
+		quadTree.initDebug();
 
-        quadTree.cleanup();
-        quadTree.update();
+		foreach(GameObject anObject in FindObjectsOfType<GameObject>()){
+			if (anObject.GetComponent<Colliding>()) {
+				quadTree.insert (anObject);
+				++added;
+			}
+		}
+		quadTree.shapeQuadTree();
+
+		Debug.Log(added + " - " + quadTree.getNumObjects() + " - Debug: " + quadTree.readDebug());
+
         quadTree.Draw();
 
-        Debug.Log(quadTree.ToString());
+		allInserted = true;
+
+        //Debug.Log(quadTree.ToString());
 	}
 
     public void AddObject(GameObject toAdd)
     {
-        potentialInsertions.Add(toAdd);
+        objects.Add(toAdd);
     }
+
+	public bool inSameRect(GameObject g1, GameObject g2)
+	{
+		return quadTree.inSameRect(g1, g2);
+	}
+
+	public bool isAllInserted() {
+		return allInserted;
+	}
 }

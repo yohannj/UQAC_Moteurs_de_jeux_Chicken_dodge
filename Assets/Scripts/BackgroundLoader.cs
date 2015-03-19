@@ -54,7 +54,7 @@ public class BackgroundLoader : Colliding
                     var entry = EntryMap[c];
                     var spriteGO = new GameObject();
                     myBackgrounds.Add(spriteGO);
-                    spriteGO.AddComponent<PlayGroundBorder>();
+                    spriteGO.AddComponent<DefaultCollider>();
                     var newSprite = spriteGO.AddComponent<Sprite>();
                     newSprite.mSpriteSheet = mSpriteSheet;
                     newSprite.mSpriteName = entry.spriteName;

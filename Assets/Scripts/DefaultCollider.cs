@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayGroundBorder : Colliding {
+public class DefaultCollider : Colliding {
 
 	// Use this for initialization
 	void Start () {

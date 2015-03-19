@@ -13,6 +13,8 @@ public class Colliding : MonoBehaviour
 
     public List<GameObject> IsCollidingWith(GameObject parent)
     {
+		//while(!GameObject.Find ("QuadTreeManager").GetComponent<QuadTreeManager>().isAllInserted()) {}
+
         List<GameObject> res = new List<GameObject>();
         foreach (Transform child in parent.transform)
         {
@@ -31,8 +33,7 @@ public class Colliding : MonoBehaviour
 
     bool isNearOf(Transform other)
     {
-        //TODO use quad tree
-        return true;
+		return GameObject.Find ("QuadTreeManager").GetComponent<QuadTreeManager>().inSameRect(gameObject, other.gameObject);
     }
 
     bool isBoundingBoxTouchingWith(Transform other)

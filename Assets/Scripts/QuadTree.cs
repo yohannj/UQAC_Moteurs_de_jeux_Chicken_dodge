@@ -12,12 +12,22 @@ public class QuadTree {
     private int maxLevels;
 
     private int level;
-    private List<Vector3> previousPositions;
     private List<GameObject> objects;
     private Rect bounds;
     private QuadTree[] nodes;
+	private QuadTree parent;
 
     private float zAxis;
+
+	int debug1;
+	int debug2;
+	int debug3;
+	int debug4;
+
+	public QuadTree(QuadTree parent, int level, int maxObjects, int maxLevels, Rect bounds, float zAxis) : this(level, maxObjects, maxLevels, bounds, zAxis)
+	{
+		this.parent = parent;
+	}
 
     public QuadTree(int level, int maxObjects, int maxLevels, Rect bounds, float zAxis)
     {
@@ -26,7 +36,6 @@ public class QuadTree {
         this.maxLevels = maxLevels;
         this.bounds = bounds;
         objects = new List<GameObject>();
-        previousPositions = new List<Vector3>();
         nodes = new QuadTree[4];
         this.zAxis = zAxis;
     }
@@ -34,16 +43,9 @@ public class QuadTree {
     public void clear()
     {
         objects.Clear();
-        previousPositions.Clear();
 
         for (int i = 0; i < nodes.Length; i++)
-        {
-            if (nodes[i] != null)
-            {
-                nodes[i].clear();
-                nodes[i] = null;
-            }
-        }
+        	nodes[i] = null;
     }
 
     private void split()
@@ -57,99 +59,85 @@ public class QuadTree {
         nodes[1] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y, subWidth, subHeight), zAxis);
         nodes[2] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x, y - subHeight, subWidth, subHeight), zAxis);
         nodes[3] = new QuadTree(level + 1, maxObjects, maxLevels, new Rect(x + subWidth, y - subHeight, subWidth, subHeight), zAxis);
+
+		//Debug.Log((nodes[0] == null) + " - " + (nodes[1] == null) + " - " + (nodes[2] == null) + " - " + (nodes[3] == null));
     }
 
-    private int getIndex(GameObject toCheck)
+    private List<int> getIndexes(GameObject toCheck)
     {
         Sprite s_toCheck = SpriteBatching.GetSpriteFromObject(toCheck);
         if (s_toCheck == null) throw new Exception(toCheck.name + " et ses enfants n'ont pas de Sprite!");
+		List<int> indexes = new List<int>();
 
-        int index = -1;
-        double verticalMidpoint = bounds.x + (bounds.width / 2f);
-        double horizontalMidpoint = bounds.y - (bounds.height / 2f);
+		float spriteX = s_toCheck.getSpriteSize().x;
+		float spriteY = s_toCheck.getSpriteSize().y;
+		float posX = toCheck.transform.position.x;
+		float posY = toCheck.transform.position.y;
 
-        bool topQuadrant = (toCheck.transform.position.y > horizontalMidpoint && toCheck.transform.position.y - s_toCheck.SpriteSize.y > horizontalMidpoint);
-        bool bottomQuadrant = (toCheck.transform.position.y < horizontalMidpoint);
+		Vector2[] corners = new Vector2[4];
 
-        if (toCheck.transform.position.x < verticalMidpoint && toCheck.transform.position.x + s_toCheck.SpriteSize.x < verticalMidpoint)
-        {
-            if (topQuadrant) index = 1;
-            else if (bottomQuadrant) index = 2;
-        }
-        else if (toCheck.transform.position.x > verticalMidpoint)
-        {
-            if (topQuadrant) index = 0;
-            else if (bottomQuadrant) index = 3;
-        }
+		corners[0] = new Vector2(spriteX + posX, spriteY + posY);
+		corners[1] = new Vector2(posX, spriteY + posY);
+		corners[2] = new Vector2(posX, posY);
+		corners[3] = new Vector2(spriteX + posX, posY);
 
-        return index;
+		for (int i = 0; i < corners.Length; i++)
+		{
+			for (int j = 0; j < nodes.Length; j++)
+			{
+				if (nodes[j].isInBound(corners[i]) && !indexes.Contains(j))
+					indexes.Add(j);
+			}
+		}
+
+        return indexes;
     }
+
+	public void initDebug() {
+		debug1 = 0;
+		debug2 = 0;
+		debug3 = 0;
+		debug4 = 0;
+	}
+
+	public String readDebug() {
+		return ""+debug1;
+	}
 
     public void insert(GameObject newObject)
     {
-        if (nodes[0] != null)
-        {
-            int index = getIndex(newObject);
-
-            if (index != -1)
-            {
-                nodes[index].insert(newObject);
-                return;
-            }
-        }
-
-        objects.Add(newObject);
-        previousPositions.Add(newObject.transform.position);
-
-        if (objects.Count > maxObjects && level < maxLevels)
-        {
-            if (nodes[0] == null || nodes[1] == null || nodes[2] == null || nodes[3] == null) split();
-
-            //foreach (GameObject anObject in objects)
-            for (int i = 0; i < objects.Count; i++)
-            {
-                int index = getIndex(objects[i]);
-                if (index != -1)
-                {
-                    nodes[index].insert(objects[i]);
-                    objects.RemoveAt(i);
-                    previousPositions.RemoveAt(i);
-                }
-            }
-        }
+		objects.Add(newObject);
     }
+
+	public void shapeQuadTree() {
+		if (objects.Count > maxObjects && level < maxLevels)
+		{
+			split ();
+			foreach (GameObject anObject in objects)
+			{
+				List<int> indexes = getIndexes(anObject);
+				//Debug.Log(indexes.Count);
+				foreach (int index in indexes)
+				{
+					nodes[index].insert (anObject);
+				}
+			}
+
+			objects.Clear();
+			for (int i = 0; i < nodes.Length; i++)
+				nodes[i].shapeQuadTree();
+		}
+	}
 
     public bool isEmpty()
     {
         return (objects.Count <= 0);
     }
 
-    public void cleanup()
+
+    /*public List<GameObject> retrieve(List<GameObject> returnObjects, GameObject toCheck)
     {
-        for (int i = 0; i < nodes.Length; i++)
-        {
-            if (nodes[i] != null)
-            {
-                nodes[i].cleanup();
-
-                if (nodes[i].isEmpty())
-                    nodes[i] = null;
-            }
-        }
-
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] == null)
-            {
-                objects.RemoveAt(i);
-                previousPositions.RemoveAt(i);
-            }
-        }
-    }
-
-    public List<GameObject> retrieve(List<GameObject> returnObjects, GameObject toCheck)
-    {
-        int index = getIndex(toCheck);
+        int index = getIndexes(toCheck);
 
         if (index != -1 && nodes[0] != null)
             nodes[index].retrieve(returnObjects, toCheck);
@@ -157,7 +145,26 @@ public class QuadTree {
         returnObjects.AddRange(objects);
 
         return returnObjects;
-    }
+    }*/
+
+	public bool inSameRect(GameObject go1, GameObject go2)
+	{
+		//Debug.Log(objects.Count);
+		if(objects.Contains(go1) && objects.Contains(go2)) {
+			return true;
+		}
+
+		for (int i = 0; i < nodes.Length; i++)
+		{
+			if (nodes[i] != null)
+			{
+				if(nodes[i].inSameRect(go1, go2))
+					return true;
+			}
+		}
+
+		return false;
+	}
 
     public void Draw()
     {
@@ -209,22 +216,46 @@ public class QuadTree {
                 (position.y <= bounds.y && position.y >= bounds.y - bounds.height));
     }
 
-    private bool hasMoved(int index)
-    {
-        return previousPositions[index] != objects[index].transform.position;
-    }
-
-    public void update()
-    {
-        for (int i = 0; i < nodes.Length; i++)
-        {
-            if (nodes[i] != null)
-                nodes[i].update();
-        }
-    }
+	public bool isInBound(Vector2 toCheck)
+	{
+		return ((toCheck.x >= bounds.x && toCheck.x <= bounds.x + bounds.width) &&
+		        (toCheck.y <= bounds.y && toCheck.y >= bounds.y - bounds.height));
+	}
 
     public override string ToString()
     {
         return "Level = " + getLevel() + ". Number of objects = " + getNumObjects();
     }
 }
+
+
+
+/*if (nodes[0] != null)
+        {
+            List<int> indexes = getIndexes(newObject);
+
+			foreach(int i in indexes) {
+				nodes[i].insert(newObject);
+			}
+			return;
+        }
+
+        objects.Add(newObject);
+		++debug1;
+
+        if (objects.Count > maxObjects && level < maxLevels)
+        {
+            split();
+
+            for (int i = 0; i < objects.Count; i++)
+            {
+                List<int> index = getIndexes(objects[i]);
+
+				foreach(int j in index) {
+					nodes[j].insert(newObject);
+				}
+            }
+			objects.Clear();
+        }
+
+*/
