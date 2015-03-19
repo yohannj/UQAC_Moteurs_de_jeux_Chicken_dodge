@@ -34,6 +34,8 @@ public class BackgroundLoader : Colliding
     MeshRenderer mMeshRender;
     UnityEngine.Mesh mMesh;
 
+
+
     void Awake()
     {
         canBeCollided = (gameObject.name == "1_PlayGround");
@@ -55,6 +57,11 @@ public class BackgroundLoader : Colliding
                     var spriteGO = new GameObject();
                     myBackgrounds.Add(spriteGO);
                     spriteGO.AddComponent<DefaultCollider>();
+                    spriteGO.name = "BackGround #"+myBackgrounds.Count;
+                    if (transform.name == "1_PlayGround")
+                    {
+                        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(spriteGO);
+                    }
                     var newSprite = spriteGO.AddComponent<Sprite>();
                     newSprite.mSpriteSheet = mSpriteSheet;
                     newSprite.mSpriteName = entry.spriteName;

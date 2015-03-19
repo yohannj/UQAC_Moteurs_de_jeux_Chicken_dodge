@@ -11,10 +11,8 @@ public class Colliding : MonoBehaviour
         get { return canBeCollided; }
     }
 
-    public List<GameObject> IsCollidingWith(GameObject parent)
+    public List<GameObject> collidingWith(GameObject parent)
     {
-		//while(!GameObject.Find ("QuadTreeManager").GetComponent<QuadTreeManager>().isAllInserted()) {}
-
         List<GameObject> res = new List<GameObject>();
         foreach (Transform child in parent.transform)
         {
@@ -24,6 +22,18 @@ public class Colliding : MonoBehaviour
             }
         }
         return res;
+    }
+
+    public bool isCollidingWith(GameObject parent)
+    {
+        foreach (Transform child in parent.transform)
+        {
+            if (isPossibleCollision(child) && isNearOf(child) && isBoundingBoxTouchingWith(child) && isThereAVectorCrossingWith(child)) //4 level of collision detection
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     bool isPossibleCollision(Transform other)

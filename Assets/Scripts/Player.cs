@@ -32,7 +32,7 @@ public class Player : Colliding
         canBeCollided = true;
 
 		mSprite = gameObject.AddComponent<Sprite>();
-        transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);//GameObject.Find("Layers").GetComponent<HUDandPlayersMesh>().add_GO_to_display(gameObject);
+        transform.parent.GetComponent<MeshRegrouper>().add_GO_to_display(gameObject);
 		mSprite.mSpriteSheet = mSpriteSheet;
 		mSprite.AnimationEndedEvent += delegate {
 			mIsAttacking = false;
@@ -43,6 +43,8 @@ public class Player : Colliding
 		UpdateSprite();
 
         mSprite.renderer.enabled = false;
+
+        GameObject.Find("QuadTreeManager").GetComponent<QuadTreeManager>().AddObject(gameObject);
 	}
 	
 	public void Update ()
@@ -100,13 +102,13 @@ public class Player : Colliding
     {
         Vector2 res = Vector2.zero;
         transform.Translate(direction * 3.0f); //translate
-        bool is_colliding = IsCollidingWith(GameObject.Find("1_PlayGround")).Count > 0;
+        bool is_colliding = isCollidingWith(GameObject.Find("1_PlayGround"));
         if (!is_colliding)
         {
             res = direction;
 
             int nb_rupee_collided = 0;
-            foreach (GameObject rupee in IsCollidingWith(GameObject.Find("3.1_Rupee")))
+            foreach (GameObject rupee in collidingWith(GameObject.Find("3.1_Rupee")))
             {
                 ++nb_rupee_collided;
                 Destroy(rupee);
@@ -119,7 +121,7 @@ public class Player : Colliding
 
     void tryKillChiken()
     {
-        foreach (GameObject chicken in IsCollidingWith(GameObject.Find("3_Chicken")))
+        foreach (GameObject chicken in collidingWith(GameObject.Find("3_Chicken")))
         {
             Destroy(chicken);
         }

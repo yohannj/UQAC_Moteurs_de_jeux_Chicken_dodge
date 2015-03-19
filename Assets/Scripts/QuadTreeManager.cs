@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class QuadTreeManager : MonoBehaviour {
 
     QuadTree quadTree;
-    bool init = false; // Instead, use: "void Start()"?
 
     public Rect bounds;
     public float zAxis;
     public int maxObjects, maxLevels;
 
-	bool allInserted;
 
-    List<GameObject> objects = new List<GameObject>();
+    HashSet<GameObject> objects = new HashSet<GameObject>();
 
     void Awake()
     {
@@ -22,43 +21,27 @@ public class QuadTreeManager : MonoBehaviour {
 
 	void Update ()
     {
-		allInserted = false;
-        /*if (!init)
-        {
-            GameObject[] allObjects = FindObjectsOfType<GameObject>();
-            for (int i = 0; i < allObjects.Length; i++)
-            {
-                if (allObjects[i].GetComponent<Colliding>() != null && quadTree.isInBound(allObjects[i]))
-                    //quadTree.insert(allObjects[i]);
-					objects.Insert (allObjects[i]);
-            }
+/*        Stopwatch sw = new Stopwatch();*/
+        
 
-            init = true;
-        }*/
-
-		quadTree.clear ();
-
-		//objects = FindObjectsOfType<GameObject>();
-
-		//objects.RemoveAll(o => o == null);
-		int added = 0;
-		quadTree.initDebug();
-
-		foreach(GameObject anObject in FindObjectsOfType<GameObject>()){
+		quadTree.init ();
+        
+		foreach(GameObject anObject in objects){
 			if (anObject.GetComponent<Colliding>()) {
 				quadTree.insert (anObject);
-				++added;
 			}
 		}
+        
+        objects = new HashSet<GameObject>();
+        /*sw.Start();*/
 		quadTree.shapeQuadTree();
-
-		Debug.Log(added + " - " + quadTree.getNumObjects() + " - Debug: " + quadTree.readDebug());
+        /*sw.Stop();*/
 
         quadTree.Draw();
 
-		allInserted = true;
-
-        //Debug.Log(quadTree.ToString());
+        
+//         long nanoseconds = sw.ElapsedTicks / (Stopwatch.Frequency / (1000L * 1000L));
+//         UnityEngine.Debug.Log(nanoseconds);
 	}
 
     public void AddObject(GameObject toAdd)
@@ -69,9 +52,5 @@ public class QuadTreeManager : MonoBehaviour {
 	public bool inSameRect(GameObject g1, GameObject g2)
 	{
 		return quadTree.inSameRect(g1, g2);
-	}
-
-	public bool isAllInserted() {
-		return allInserted;
 	}
 }
